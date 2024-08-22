@@ -16,10 +16,15 @@ const UserSchema = new Schema({
         require: true,
         unique: true,
     },
-    createdAt: {
-        type: Date,
-        default: Date.now,
+    name:{
+        type: String,
+    },
+    uid:{
+        type: String,
     }
+    
+},{
+    timestamps: true,
 })
 
 const User = mongoose.model('user', UserSchema);

@@ -1,16 +1,17 @@
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from "@/hooks/useAuth";
+
 
 interface SidebarProps {
     onClose: () => void;
 }
 
 export default function Sidebar({ onClose }: SidebarProps) {
-    const auth = useAuth();
-    if (!auth) {
-        return null;
-    }
+    const {user,logout,isAuthenticated} = useAuth();
+    // if (!auth) {
+    //     return null;
+    // }
 
-    const { user, logout } = auth;
+   
 
     return (
         <div className="fixed top-0 right-0 w-64 h-full bg-gray-800 text-white shadow-lg p-4">

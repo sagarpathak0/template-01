@@ -147,8 +147,21 @@ router.post("/github", async (req, res) => {
   }
 });
 
-router.get('/verify', authenticateToken, (req, res) => {
-  res.json({ user: req.user });
-});
+// router.get('/verify', authenticateToken, async(req, res) => {
+//   res.json({ user: req.user });
+// });
+
+router.route("/verify").get([authenticateToken],async(req,res)=>{
+  try{
+    const user = await User.findById(req.user.userId).select("-password");
+    res.json({ user });
+  }
+  catch(err){
+    console.log(err.message);
+    res.status(500).json({
+      message: "Error during verification",
+    })
+  }
+})
 
 module.exports = router;

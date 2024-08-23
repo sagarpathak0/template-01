@@ -1,12 +1,15 @@
 import React from "react";
 import Sidebar from "./components/Sidebar";
 import { GetServerSideProps } from "next";
+import { useAuth } from "@/hooks/useAuth";
 
 interface DashboardProps {
     isAuthenticated: boolean;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ isAuthenticated }) => {
+const Dashboard: React.FC<DashboardProps> = ({ }) => {
+    const { isAuthenticated, user, logout } = useAuth();
+
     if (!isAuthenticated) {
         return <p>Access denied. You must be logged in to view this page.</p>;
     }
@@ -26,24 +29,25 @@ const Dashboard: React.FC<DashboardProps> = ({ isAuthenticated }) => {
     );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const token = context.req.cookies.token || '';
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//     // const token = context.req.cookies.token || '';
+//     const token = localStorage.getItem("token")
+//     try {
+//         const res = await fetch('http://localhost:8080/api/auth/verify', {
+//             headers: {
+//                 'Authorization': `Bearer ${token}`,
+//             },
+//         });
+//         console.log(res)
 
-    try {
-        const res = await fetch('http://localhost:8080/api/auth/verify', {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-        });
-
-        if (res.ok) {
-            return { props: { isAuthenticated: true } };
-        } else {
-            return { props: { isAuthenticated: false } };
-        }
-    } catch {
-        return { props: { isAuthenticated: false } };
-    }
-}
+//         if (res.ok) {
+//             return { props: { isAuthenticated: true } };
+//         } else {
+//             return { props: { isAuthenticated: false } };
+//         }
+//     } catch {
+//         return { props: { isAuthenticated: false } };
+//     }
+// }
 
 export default Dashboard;

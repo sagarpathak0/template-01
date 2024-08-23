@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const User = require("../models/user");
 const admin = require("firebase-admin");
+const authenticateToken = require("../middleware/authenticateToken");
 
 router.post("/signup", async (req, res) => {
   const { username, email, password } = req.body;
@@ -144,6 +145,10 @@ router.post("/github", async (req, res) => {
       message: "Error during GitHub Login",
     });
   }
+});
+
+router.get('/verify', authenticateToken, (req, res) => {
+  res.json({ user: req.user });
 });
 
 module.exports = router;

@@ -1,13 +1,11 @@
-import { Inter } from "next/font/google";
+import React from "react";
+import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faDiscord } from "@fortawesome/free-brands-svg-icons";
-import { motion } from "framer-motion";
 
-const inter = Inter({ subsets: ["latin"] });
-
-export default function Home() {
+const Home: React.FC = () => {
   return (
-    <main className={`flex flex-col items-center bg-gradient-to-r from-blue-900 via-purple-900 to-blue-900 text-white ${inter.className}`}>
+    <main className="flex flex-col items-center bg-gradient-to-r from-blue-900 via-purple-900 to-blue-900 text-white">
       {/* Hero Section */}
       <section className="flex flex-col items-center justify-center min-h-screen text-center">
         <motion.h1
@@ -64,7 +62,7 @@ export default function Home() {
           ].map((item, index) => (
             <motion.div
               key={index}
-              className="relative bg-gradient-to-r from-indigo-500 to-cyan-500 text-white p-10 rounded-lg shadow-lg transition-transform transform hover:scale-105 overflow-hidden h-72 before:absolute before:inset-0 before:border-4 before:border-transparent before:rounded-lg before:transition-all before:duration-500 before:opacity-0 before:border-solid before:border-rgb-animation"
+              className="bg-gradient-to-r from-blue-500 to-teal-500 text-white p-6 rounded-lg shadow-2xl hover:shadow-xl transition-shadow transform hover:scale-105"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -91,7 +89,7 @@ export default function Home() {
           ].map((feature, index) => (
             <motion.div
               key={index}
-              className="relative bg-gradient-to-r from-teal-500 to-lime-500 text-white p-10 rounded-lg shadow-lg transition-transform transform hover:scale-105 overflow-hidden h-72 before:absolute before:inset-0 before:border-4 before:border-transparent before:rounded-lg before:transition-all before:duration-500 before:opacity-0 before:border-solid before:border-rgb-animation"
+              className="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-6 rounded-lg shadow-2xl hover:shadow-xl transition-shadow transform hover:scale-105"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -115,7 +113,7 @@ export default function Home() {
           ].map((testimonial, index) => (
             <motion.div
               key={index}
-              className="relative bg-gradient-to-r from-pink-500 to-red-500 text-white p-10 rounded-lg shadow-lg transition-transform transform hover:scale-105 overflow-hidden h-72 before:absolute before:inset-0 before:border-4 before:border-transparent before:rounded-lg before:transition-all before:duration-500 before:opacity-0 before:border-solid before:border-rgb-animation"
+              className="bg-gradient-to-r from-green-500 to-yellow-500 text-white p-6 rounded-lg shadow-2xl hover:shadow-xl transition-shadow transform hover:scale-105"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -155,7 +153,7 @@ export default function Home() {
       {/* Footer Section */}
       <footer className="w-full max-w-7xl text-center py-12">
         <p className="text-sm text-gray-400">
-        &copy; {new Date().getFullYear()} Your App. All rights reserved.
+          &copy; {new Date().getFullYear()} Your App. All rights reserved.
         </p>
         <div className="flex justify-center gap-6 mt-6">
           <a href="https://github.com/your-repo" target="_blank" rel="noopener noreferrer">
@@ -168,5 +166,6 @@ export default function Home() {
       </footer>
     </main>
   );
-}
+};
 
+export default Home;

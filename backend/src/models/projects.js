@@ -31,25 +31,6 @@ const projectSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    invites: [
-      {
-        email: {
-          type: String,
-          required: true,
-          index: true,
-        },
-        status: {
-          type: String,
-          enum: ["Pending", "Accepted", "Rejected"],
-          default: "Pending",
-          index: true,
-        },
-        sentAt: {
-          type: Date,
-          default: Date.now,
-        },
-      },
-    ],
     collabrates: [
       {
         type: Schema.Types.ObjectId,

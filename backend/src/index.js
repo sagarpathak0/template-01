@@ -3,7 +3,8 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 const cors = require("cors");
 const authRoutes = require("./routes/auth");
-const documentRoutes = require("./routes/document");
+const projectRoutes = require("./routes/project");
+const invitationRoutes = require("./routes/invitation");
 const mongoose = require("mongoose");
 const http = require("http");
 const { Server } = require("socket.io");
@@ -46,7 +47,8 @@ io.on("connection", (socket) => {
 
 // Routes
 app.use("/api/auth", authRoutes);
-app.use("/api/documents", documentRoutes);
+app.use("/api/project", projectRoutes);
+app.use("/api/invite", invitationRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello, Data");

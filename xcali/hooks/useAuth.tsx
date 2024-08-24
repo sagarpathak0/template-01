@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import api from "@/api/api";
 
 interface RegisterParams {
   email: string;
@@ -23,8 +24,8 @@ export const useAuth = () => {
     name,
   }: RegisterParams) => {
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/auth/register",
+      const response = await api.post(
+        "/api/auth/register",
         {
           email,
           password,
@@ -52,7 +53,7 @@ export const useAuth = () => {
     password: string;
   }) => {
     try {
-      const res = await axios.post("http://localhost:8080/api/auth/login", {
+      const res = await api.post("/api/auth/login", {
         email,
         password,
       });
@@ -70,7 +71,7 @@ export const useAuth = () => {
   // Function to handle Google login
   const googleLogin = async (idToken: string) => {
     try {
-      const res = await axios.post("http://localhost:8080/api/auth/google", {
+      const res = await api.post("/api/auth/google", {
         token: idToken,
       });
       console.log(res.data);
@@ -87,7 +88,7 @@ export const useAuth = () => {
   // Function to handle GitHub login
   const githubLogin = async (idToken: string) => {
     try {
-      const res = await axios.post("http://localhost:8080/api/auth/github", {
+      const res = await api.post("/api/auth/github", {
         token: idToken,
       });
       console.log(res.data);

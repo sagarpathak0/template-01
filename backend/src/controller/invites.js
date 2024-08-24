@@ -107,11 +107,9 @@ exports.acceptInvitation = async (req, res) => {
     project.collaborators.push(userId);
     await project.save();
 
-    res
-      .status(200)
-      .json({
-        message: "Invitation accepted and user added as a collaborator.",
-      });
+    res.status(200).json({
+      message: "Invitation accepted and user added as a collaborator.",
+    });
   } catch (error) {
     console.error("Error accepting invitation:", error);
     res

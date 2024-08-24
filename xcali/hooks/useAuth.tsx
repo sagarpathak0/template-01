@@ -2,10 +2,46 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 
+interface RegisterParams {
+  email: string;
+  password: string;
+  gender: string;
+  username: string;
+  name: string;
+}
+
 export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<any>(null);
   const router = useRouter();
+
+  const register = async ({
+    email,
+    password,
+    gender,
+    username,
+    name,
+  }: RegisterParams) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/auth/register",
+        {
+          email,
+          password,
+          gender,
+          username,
+          name,
+        }
+      );
+      console.log(response.data);
+      setIsAuthenticated(true);
+      setUser(response.data);
+      const { token, user } = response.data;
+      localStorage.setItem("auth", JSON.stringify({ token, user }));
+    } catch (err) {
+      console.log("Register useAuth Error", err);
+    }
+  };
 
   // Function to handle regular login
   const login = async ({
@@ -37,7 +73,7 @@ export const useAuth = () => {
       const res = await axios.post("http://localhost:8080/api/auth/google", {
         token: idToken,
       });
-      console.log(res.data)
+      console.log(res.data);
       const { token, user } = res.data;
       localStorage.setItem("auth", JSON.stringify({ token, user }));
       setIsAuthenticated(true);
@@ -54,7 +90,7 @@ export const useAuth = () => {
       const res = await axios.post("http://localhost:8080/api/auth/github", {
         token: idToken,
       });
-      console.log(res.data)
+      console.log(res.data);
       const { token, user } = res.data;
       localStorage.setItem("auth", JSON.stringify({ token, user }));
       setIsAuthenticated(true);
@@ -93,5 +129,13 @@ export const useAuth = () => {
     checkAuth();
   }, []);
 
-  return { isAuthenticated, user, login, logout, googleLogin, githubLogin };
+  return {
+    isAuthenticated,
+    user,
+    login,
+    logout,
+    googleLogin,
+    githubLogin,
+    register,
+  };
 };

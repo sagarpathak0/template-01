@@ -27,14 +27,18 @@ const userSchema = new Schema(
     uid: {
       type: String,
     },
-    projectsId:[ {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Project",
-    }],
-    friendsId: [{
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    }],
+    projectsId: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Project",
+      },
+    ],
+    friendsId: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
     username: {
       type: String,
       unique: true,
@@ -57,9 +61,9 @@ userSchema.pre("save", async function (next) {
     user.password = hashedPassword;
 
     if (!user.profilePic) {
-        const genderPrefix = user.gender === 'male' ? 'boy' : 'girl';
-        user.profilePic = `https://avatar.iran.liara.run/public/${genderPrefix}?username=${user.username}`;
-      }
+      const genderPrefix = user.gender === "male" ? "boy" : "girl";
+      user.profilePic = `https://avatar.iran.liara.run/public/${genderPrefix}?username=${user.username}`;
+    }
 
     next();
   } catch (error) {

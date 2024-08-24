@@ -9,6 +9,7 @@ import {
 } from "@/config/firebase";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import { useAuth } from "@/hooks/useAuth";
 
 const SignUp = () => {
   const [username, setUsername] = useState<string>("");
@@ -16,6 +17,8 @@ const SignUp = () => {
   const [error, setError] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
+
+  const {googleLogin,githubLogin} = useAuth();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,23 +44,23 @@ const SignUp = () => {
 
   const handleGoogle = async () => {
     try {
-      const result = await signInWithPopup(auth, googleAuthProvider);
-      const idToken = result.user.getIdToken();
-      console.log("Google id Token", idToken);
+        const result = await signInWithPopup(auth, googleAuthProvider);
+        const idToken = await result.user.getIdToken();
+        await googleLogin(idToken);
     } catch (err) {
-      console.log("handle Google Error at SignUp ", err);
+        console.log("Google login error:", err);
     }
-  };
+};
 
-  const handleGithub = async () => {
+const handleGithub = async () => {
     try {
-      const result = await signInWithPopup(auth, githubAuthProvider);
-      const idToken = result.user.getIdToken();
-      console.log("Github id Token", idToken);
+        const result = await signInWithPopup(auth, githubAuthProvider);
+        const idToken = await result.user.getIdToken();
+        await githubLogin(idToken);
     } catch (err) {
-      console.log("handle Github Error at SignUp ", err);
+        console.log("GitHub login error:", err);
     }
-  };
+};
 
   return (
     <div className="container mx-auto p-4">

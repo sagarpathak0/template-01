@@ -20,7 +20,7 @@ const Dashboard: React.FC = () => {
                 <h2 className="text-2xl font-bold mb-6">User Dashboard</h2>
                 <ul>
                     <li className="mb-4">
-                        <a href="#" className="text-lg hover:text-indigo-300">Overview</a>
+                        <a href="/overview" className="text-lg hover:text-indigo-300">Overview</a>
                     </li>
                     <li className="mb-4">
                         <a href="#" className="text-lg hover:text-indigo-300">Settings</a>

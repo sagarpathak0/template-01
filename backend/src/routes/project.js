@@ -8,8 +8,11 @@ const {
   getAllProjectsByCurrentUser,
   getPublicProjectsByUserId,
   updateProject,
-} = require('../controllers/projectController'); // Import controllers
-const { updateAttachments } = require('../controller/project');
+  removeAttachment,
+  updateAttachments,
+} = require('../controller/project.js');
+
+const authenticateToken = require("../middleware/authenticateToken.js")
 
 // Create a new project
 router.post('/create', upload.array('files'), createProject);
@@ -28,6 +31,6 @@ router.put('/update/:projectId', updateProject);
 
 router.post("/projects/:projectId/update-attachments", upload.array('files'), updateAttachments);
 
-router.delete("/:projectId/attachments", authenticate, removeAttachment);
+router.delete("/:projectId/attachments", removeAttachment);
 
 module.exports = router;

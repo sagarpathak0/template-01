@@ -1,4 +1,4 @@
-const Project = require("../models/Project.js");
+const Project = require("../models/projects.js");
 const User = require("../models/user.js");
 const uploadToCloudinary = require("../utils/uploadToCloudinary.js");
 const deleteFromCloudinary = require("../utils/deleteFromCloduinary.js");

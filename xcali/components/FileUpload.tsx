@@ -103,6 +103,15 @@ const FileUpload: React.FC = () => {
                                 webkitdirectory=""
                                 multiple
                             />
+                            <div className="mt-2">
+                                {files && files.length > 0 && (
+                                    <ul>
+                                        {files.map((file, index) => (
+                                            <li key={index} className="text-sm text-gray-600">{file.name}</li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </div>
                         </div>
 
                         <div className="mb-4">
@@ -112,6 +121,11 @@ const FileUpload: React.FC = () => {
                                 onChange={handleThumbnailChange}
                                 className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-600 hover:file:bg-indigo-100"
                             />
+                            {thumbnail && (
+                                <div className="mt-2">
+                                    <img src={URL.createObjectURL(thumbnail)} alt="Thumbnail Preview" className="w-32 h-32 object-cover rounded-md" />
+                                </div>
+                            )}
                         </div>
 
                         <button

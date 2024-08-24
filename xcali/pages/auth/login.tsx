@@ -1,12 +1,17 @@
 import React, { useState, FormEvent } from "react";
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { signInWithPopup } from "firebase/auth";
+import { auth, githubAuthProvider, googleAuthProvider } from "@/config/firebase";
+import { useAuth } from "@/hooks/useAuth";
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [error, setError] = useState<string>('');
     const router = useRouter();
+    const {githubLogin,googleLogin} = useAuth();
+
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -34,6 +39,29 @@ const Login: React.FC = () => {
             setError("Invalid credentials or server error");    
         }
     }
+
+    const handleGoogle = async () => {
+        try {
+          const result = await signInWithPopup(auth, googleAuthProvider);
+          const idToken = await result.user.getIdToken();
+        //   console.log("Google id Token", idToken);
+          await googleLogin(idToken)
+        } catch (err) {
+          console.log("handle Google Error at SignUp ", err);
+        }
+      };
+    
+      const handleGithub = async () => {
+        try {
+          const result = await signInWithPopup(auth, githubAuthProvider);
+          const idToken = await result.user.getIdToken();
+          console.log("Github id Token", idToken);
+          await githubLogin(idToken);
+        } catch (err) {
+          console.log("handle Github Error at SignUp ", err);
+        }
+      };
+    
 
     return (
         <div className="container mx-auto p-4">
@@ -71,10 +99,14 @@ const Login: React.FC = () => {
                     Login
                 </button>
                 <div>
-                    <button className="w-[48%] mr-4 mt-3 bg-indigo-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-indigo-500 focus:ring-offset-2">
+                    <button className="w-[48%] mr-4 mt-3 bg-indigo-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-indigo-500 focus:ring-offset-2"
+                    onClick={handleGoogle}
+                    >
                         Google
                     </button>
-                    <button className="w-[48%] mt-3 bg-indigo-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-indigo-500 focus:ring-offset-2">
+                    <button className="w-[48%] mt-3 bg-indigo-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-indigo-500 focus:ring-offset-2"
+                    onClick={handleGithub}
+                    >
                         Github
                     </button>
                 </div>

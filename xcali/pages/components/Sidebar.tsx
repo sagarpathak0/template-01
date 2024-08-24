@@ -1,4 +1,6 @@
 import { useAuth } from "@/hooks/useAuth";
+import {googleAuthProvider,auth,githubAuthProvider} from "@/config/firebase"
+import {signInWithPopup}from "firebase/auth"
 
 interface SidebarProps {
   onClose: () => void;
@@ -6,9 +8,28 @@ interface SidebarProps {
 
 export default function Sidebar({ onClose }: SidebarProps) {
   const { user, logout, isAuthenticated } = useAuth();
-  // if (!auth) {
-  //     return null;
-  // }
+  
+ 
+  const handleGoogle = async()=>{
+    try{
+      const result = await signInWithPopup(auth,googleAuthProvider)
+      const idToken = result.user.getIdToken()
+      console.log(idToken)
+    }
+    catch(err){
+      console.log("Google Auth Register Error",err);
+    }
+  }
+  const handleGithub = async()=>{
+    try{
+      const result = await signInWithPopup(auth,githubAuthProvider)
+      const idToken = result.user.getIdToken()
+      console.log(idToken)
+    }
+    catch(err){
+      console.log("Github Auth Register Error",err);
+    }
+  }
 
   return (
     <div className="fixed top-0 right-0 w-64 h-full bg-gray-800 text-white shadow-lg p-4">

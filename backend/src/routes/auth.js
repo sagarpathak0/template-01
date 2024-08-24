@@ -65,85 +65,143 @@ router.post("/login", async (req, res) => {
 router.post("/google", async (req, res) => {
   try {
     const { token } = req.body;
+
+    // Validate token
     if (!token) {
-      console.log("Validation Error: Missing Fields");
+      console.log("Validation Error: Missing Token");
+      return res.status(400).json({ message: "Missing token" });
     }
+
+    // Verify token
     const decodedToken = await admin.auth().verifyIdToken(token);
+
     if (!decodedToken) {
       console.log("Authentication Error: Invalid Token");
+      return res.status(401).json({ message: "Invalid token" });
     }
+
     const { uid, email, name, picture } = decodedToken;
+
+    // Check if user exists
     let user = await User.findOne({ $or: [{ email }, { uid }] });
+
     if (user) {
-      const token = jwt.sign({ userId: user._id }, process.env.SECRET_TOKEN, {
-        expiresIn: "1h",
-      });
-      user.password = await bcrypt.hash(token, 12);
-      await user.save();
-      console.log("Google Login Successful", token);
-      res.status(200).json({ token });
-    } else {
-      const newUser = new User({ uid, email, name });
-      const token = jwt.sign(
-        { userId: newUser._id },
+      // If user exists, generate a new JWT token
+      const newToken = jwt.sign(
+        { userId: user._id },
         process.env.SECRET_TOKEN,
         {
           expiresIn: "1h",
         }
       );
-      user.password = await bcrypt.hash(token, 12);
+
+      // Assuming you want to store the JWT token as a password (which might be unconventional)
+      const salt = await bcrypt.genSalt(12);
+      user.password = await bcrypt.hash(newToken, salt); // Save hashed token as password
+      await user.save();
+
+      console.log("Google Login Successful", newToken);
+      res.status(200).json({ token: newToken,user:{...user._doc,password:undefined} });
+    } else {
+      // Create a new user if none exists
+      const newUser = new User({ uid, email, name });
+
+      // Save the new user first to get the _id
       await newUser.save();
 
-      console.log("Google Login Successful", token);
-      res.status(200).json({ token });
+      // Generate a new JWT token
+      const newToken = jwt.sign(
+        { userId: newUser._id },
+        process.env.SECRET_TOKEN,
+        { expiresIn: "1h" }
+      );
+
+      // Hash the token and save it as the password
+      const salt = await bcrypt.genSalt(12);
+      newUser.password = await bcrypt.hash(newToken, salt);
+      await newUser.save();
+
+      console.log("Google Login Successful", newToken);
+      res.status(200).json({ token: newToken ,user:{...newUser._doc,password:undefined}});
     }
   } catch (err) {
-    console.log(err.message);
-    res.status(500).json({
-      message: "Error during Google Login",
-    });
+    console.error(err.message);
+    res.status(500).json({ message: "Error during Google Login" });
   }
 });
 
 router.post("/github", async (req, res) => {
   try {
     const { token } = req.body;
+
+    // Validate token
     if (!token) {
-      console.log("Validation Error: Missing Fields");
+      console.log("Validation Error: Missing Token");
+      return res.status(400).json({ message: "Missing token" });
     }
+
+    // Verify token
     const decodedToken = await admin.auth().verifyIdToken(token);
+
     if (!decodedToken) {
       console.log("Authentication Error: Invalid Token");
+      return res.status(401).json({ message: "Invalid token" });
     }
-    const { uid, email, name, picture } = decodedToken;
+
+    const { uid, email, name } = decodedToken;
+
+    // Check if user exists
     let user = await User.findOne({ $or: [{ email }, { uid }] });
+
     if (user) {
-      const token = jwt.sign({ userId: user._id }, process.env.SECRET_TOKEN, {
-        expiresIn: "1h",
-      });
-      user.password = await bcrypt.hash(token, 12);
-      await user.save();
-      console.log("Github Login Successful", token);
-      res.status(200).json({ token });
-    } else {
-      const newUser = new User({ uid, email, name });
-      const token = jwt.sign(
-        { userId: newUser._id },
+      // If user exists, generate a new JWT token
+      const newToken = jwt.sign(
+        { userId: user._id },
         process.env.SECRET_TOKEN,
         {
           expiresIn: "1h",
         }
       );
-      user.password = await bcrypt.hash(token, 12);
+
+      
+      const salt = await bcrypt.genSalt(12);
+      user.password = await bcrypt.hash(newToken, salt);
+      await user.save();
+
+      console.log("GitHub Login Successful", newToken);
+      res
+        .status(200)
+        .json({ token: newToken, user: { ...user._doc, password: undefined } });
+    } else {
+      // Create a new user if none exists
+      const newUser = new User({ uid, email, username: name });
+
+      // Save the new user first to get the _id
       await newUser.save();
-      console.log("Github Login Successful", token);
-      res.status(200).json({ token });
+
+      // Generate a new JWT token
+      const newToken = jwt.sign(
+        { userId: newUser._id },
+        process.env.SECRET_TOKEN,
+        { expiresIn: "1h" }
+      );
+
+      // Hash the token and save it as the password
+      const salt = await bcrypt.genSalt(12);
+      newUser.password = await bcrypt.hash(newToken, salt);
+      await newUser.save();
+
+      console.log("GitHub Login Successful", newToken);
+      res
+        .status(200)
+        .json({
+          token: newToken,
+          user: { ...newUser._doc, password: undefined },
+        });
     }
   } catch (err) {
-    console.log(err.message);
-    res.status(500).json({
-      message: "Error during GitHub Login",
-    });
+    console.error(err.message);
+    res.status(500).json({ message: "Error during GitHub Login" });
   }
 });
 
@@ -151,17 +209,16 @@ router.post("/github", async (req, res) => {
 //   res.json({ user: req.user });
 // });
 
-router.route("/verify").get([authenticateToken],async(req,res)=>{
-  try{
+router.route("/verify").get([authenticateToken], async (req, res) => {
+  try {
     const user = await User.findById(req.user.userId).select("-password");
     res.json({ user });
-  }
-  catch(err){
+  } catch (err) {
     console.log(err.message);
     res.status(500).json({
       message: "Error during verification",
-    })
+    });
   }
-})
+});
 
 module.exports = router;

@@ -21,7 +21,7 @@ const Dashboard: React.FC<DashboardProps> = ({ }) => {
 
     return (
         <div className="flex">
-            <Sidebar onClose={handleSidebarClose} />
+            {/* <Sidebar onClose={handleSidebarClose} /> */}
             <main className="flex-1 p-6">
                 <h1 className="text-2xl font-bold">Dashboard</h1>
                 <p>Welcome to the dashboard! Only logged-in users can see this.</p>
@@ -30,25 +30,6 @@ const Dashboard: React.FC<DashboardProps> = ({ }) => {
     );
 }
 
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//     // const token = context.req.cookies.token || '';
-//     const token = localStorage.getItem("token")
-//     try {
-//         const res = await fetch('http://localhost:8080/api/auth/verify', {
-//             headers: {
-//                 'Authorization': `Bearer ${token}`,
-//             },
-//         });
-//         console.log(res)
 
-//         if (res.ok) {
-//             return { props: { isAuthenticated: true } };
-//         } else {
-//             return { props: { isAuthenticated: false } };
-//         }
-//     } catch {
-//         return { props: { isAuthenticated: false } };
-//     }
-// }
 
 export default Dashboard;

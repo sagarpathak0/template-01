@@ -21,7 +21,7 @@ const Dashboard: React.FC<DashboardProps> = ({ }) => {
 
     return (
         <div className="flex">
-           {isSidebarOpen && <Sidebar onClose={handleSidebarClose} />}
+            <Sidebar onClose={handleSidebarClose} />
             <main className="flex-1 p-6">
                 <h1 className="text-2xl font-bold">Dashboard</h1>
                 <p>Welcome to the dashboard! Only logged-in users can see this.</p>

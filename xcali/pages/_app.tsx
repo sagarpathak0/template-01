@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     const router = useRouter();
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('auth');
         if (!token && (router.pathname === '/dashboard' || router.pathname === '/upload' || router.pathname === '/chat')) {
             router.push('/auth/login');
         }

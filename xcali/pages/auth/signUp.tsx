@@ -11,10 +11,9 @@ const SignUp = () => {
   const [name, setName] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [gender, setGender] = useState<string>("male");
   const [error, setError] = useState<string>("");
-
+  const [gender, setGender] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const router = useRouter();
   const { googleLogin, githubLogin } = useAuth();
 
@@ -95,8 +94,28 @@ const SignUp = () => {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-            Email
+          <label
+            htmlFor="gender"
+            className="block text-sm font-medium text-white-700"
+          >
+            gender
+          </label>
+          <input
+            className="text-black mt-1 block w-full px-3 py-2 vorder boder-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            type="text"
+            id="gender"
+            name="gender"
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-white-700"
+          >
+            email
           </label>
           <input
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"

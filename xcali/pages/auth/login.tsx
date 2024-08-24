@@ -13,9 +13,9 @@ const Login: React.FC = () => {
     const router = useRouter();
     const { githubLogin, googleLogin,login } = useAuth();
 
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setError("");
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError("");
 
         try {
             if (!email) {

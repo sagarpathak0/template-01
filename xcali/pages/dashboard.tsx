@@ -50,10 +50,10 @@ const Dashboard: React.FC = () => {
                         <a href="/overview" className="text-lg hover:text-indigo-300">Overview</a>
                     </li>
                     <li className="mb-4">
-                        <a href="#" className="text-lg hover:text-indigo-300">Settings</a>
+                        <a href="setting" className="text-lg hover:text-indigo-300">Settings</a>
                     </li>
                     <li className="mb-4">
-                        <a href="#" className="text-lg hover:text-indigo-300">Support</a>
+                        <a href="/faq" className="text-lg hover:text-indigo-300">Support</a>
                     </li>
                 </ul>
             </div>

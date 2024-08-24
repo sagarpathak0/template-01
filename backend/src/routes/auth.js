@@ -8,27 +8,30 @@ const admin = require("firebase-admin");
 const authenticateToken = require("../middleware/authenticateToken");
 
 router.post("/signup", async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, name, gender } = req.body;
 
   try {
     let user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({ message: "AAM JAHE MUNDE" });
     }
-    const hashedPassword = await bcrypt.hash(password, 10);
     user = new User({
       username,
       email,
-      password: hashedPassword,
+      password,
+      gender,
+      name,
     });
     await user.save();
     const token = jwt.sign({ userId: user._id }, process.env.SECRET_TOKEN, {
       expiresIn: "1h",
     });
     console.log("JWT Token generated:", token);
-    res.status(201).json({ token });
+    res
+      .status(201)
+      .json({ token, user: { ...user._doc, password: undefined } });
   } catch (err) {
-    console.log("Error during signup", err.message);
+    console.log("Error during signup", err);
     res.status(500).send("AAM NHI HAI MUNDE");
   }
 });
@@ -55,7 +58,9 @@ router.post("/login", async (req, res) => {
 
     console.log("Login Successful", token);
 
-    res.status(200).json({ token });
+    res
+      .status(200)
+      .json({ token, user: { ...user._doc, password: undefined } });
   } catch (err) {
     console.log("Error during Login", err.message, err.stack);
     res.status(500).json({ message: "Login Error" });
@@ -101,10 +106,12 @@ router.post("/google", async (req, res) => {
       await user.save();
 
       console.log("Google Login Successful", newToken);
-      res.status(200).json({ token: newToken,user:{...user._doc,password:undefined} });
+      res
+        .status(200)
+        .json({ token: newToken, user: { ...user._doc, password: undefined } });
     } else {
       // Create a new user if none exists
-      const newUser = new User({ uid, email, name });
+      const newUser = new User({ uid, email, name, profilePic: picture });
 
       // Save the new user first to get the _id
       await newUser.save();
@@ -122,10 +129,13 @@ router.post("/google", async (req, res) => {
       await newUser.save();
 
       console.log("Google Login Successful", newToken);
-      res.status(200).json({ token: newToken ,user:{...newUser._doc,password:undefined}});
+      res.status(200).json({
+        token: newToken,
+        user: { ...newUser._doc, password: undefined },
+      });
     }
   } catch (err) {
-    console.error(err.message);
+    console.error(err);
     res.status(500).json({ message: "Error during Google Login" });
   }
 });
@@ -163,7 +173,6 @@ router.post("/github", async (req, res) => {
         }
       );
 
-      
       const salt = await bcrypt.genSalt(12);
       user.password = await bcrypt.hash(newToken, salt);
       await user.save();
@@ -192,12 +201,10 @@ router.post("/github", async (req, res) => {
       await newUser.save();
 
       console.log("GitHub Login Successful", newToken);
-      res
-        .status(200)
-        .json({
-          token: newToken,
-          user: { ...newUser._doc, password: undefined },
-        });
+      res.status(200).json({
+        token: newToken,
+        user: { ...newUser._doc, password: undefined },
+      });
     }
   } catch (err) {
     console.error(err.message);

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const bcrypt = require("bcryptjs");
+const generateUsername = require("../utils/usernameGen");
 
 const userSchema = new Schema(
   {
@@ -65,15 +66,14 @@ userSchema.pre("save", async function (next) {
       user.profilePic = `https://avatar.iran.liara.run/public/${genderPrefix}?username=${user.username}`;
     }
 
+    if (!user.username) {
+      user.username = generateUsername(this.email, this.name);
+    }
     next();
   } catch (error) {
     return next(error);
   }
 });
-
-userSchema.index({ name: 1 });
-userSchema.index({ email: 1 });
-userSchema.index({ username: 1 });
 
 const User = mongoose.model("User", userSchema);
 module.exports = User;

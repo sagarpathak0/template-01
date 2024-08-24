@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Sidebar from './Sidebar';
+import Link from 'next/link';
 
 export default function Navbar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -22,7 +23,7 @@ export default function Navbar() {
         }`}
       >
         <div className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-800'}`}>
-          MyApp
+          <Link href="/">MyApp</Link>
         </div>
         <div className="flex items-center gap-4">
           <button

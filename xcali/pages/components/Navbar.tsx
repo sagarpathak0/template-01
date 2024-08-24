@@ -23,7 +23,9 @@ export default function Navbar() {
         }`}
       >
         <div className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-800'}`}>
+
           <Link href="/">MyApp</Link>
+
         </div>
         <div className="flex items-center gap-4">
           <button

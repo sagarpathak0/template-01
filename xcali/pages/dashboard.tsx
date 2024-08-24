@@ -48,7 +48,7 @@ const Dashboard: React.FC = () => {
                 <p className="text-lg text-gray-600 mb-8">Welcome to your dashboard! Only logged-in users can see this.</p>
 
                 <div className="bg-white shadow-lg rounded-lg p-6">
-                    <h2 className="text-xl font-semibold text-gray-800 mb-4">Upload Files</h2>
+                    <h2 className="text-xl font-semibold text-gray-800 mb-4">Create project</h2>
                     <FileUpload />
                 </div>
             </main>

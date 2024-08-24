@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { FaPlus, FaUserPlus, FaEdit, FaTrash, FaCheck } from "react-icons/fa";
 import FileUpload from "@/components/FileUpload";
 import Modal from "@/components/Modal";
+import { useAuth } from "@/hooks/useAuth";
 
 const Dashboard: React.FC = () => {
     const [showProjectForm, setShowProjectForm] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
-    const [selectedProject, setSelectedProject] = useState<any>(null); // Replace `any` with appropriate type
+    const [selectedProject, setSelectedProject] = useState<any>(null); 
     const [activeTab, setActiveTab] = useState<"owned" | "collaborated">("owned");
+    const {user} = useAuth();
+
 
     const handleCreateProject = () => {
         setShowProjectForm(true);
@@ -47,10 +50,10 @@ const Dashboard: React.FC = () => {
                         <a href="/overview" className="text-lg hover:text-indigo-300">Overview</a>
                     </li>
                     <li className="mb-4">
-                        <a href="#" className="text-lg hover:text-indigo-300">Settings</a>
+                        <a href="setting" className="text-lg hover:text-indigo-300">Settings</a>
                     </li>
                     <li className="mb-4">
-                        <a href="#" className="text-lg hover:text-indigo-300">Support</a>
+                        <a href="/faq" className="text-lg hover:text-indigo-300">Support</a>
                     </li>
                 </ul>
             </div>
@@ -60,8 +63,8 @@ const Dashboard: React.FC = () => {
                 <div className="flex justify-between items-center mb-6">
                     <h1 className="text-3xl font-bold text-gray-800">Dashboard</h1>
                     <div className="flex items-center">
-                        <p className="text-gray-700 mr-4">Hello, User</p>
-                        <img src="/default-avatar.png" alt="User Avatar" className="w-10 h-10 rounded-full"/>
+                        <p className="text-gray-700 mr-4">Hello, {user?.name}</p>
+                        <img src={user?.profilePic||"/default-avatar.png"} alt="User Avatar" className="w-10 h-10 rounded-full"/>
                     </div>
                 </div>
 

@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const User = require('../models/user');
 require('dotenv').config();
 
 const authenticateToken = (req, res, next) => {
@@ -12,14 +13,15 @@ const authenticateToken = (req, res, next) => {
 
     console.log('Received token:', token);
 
-    jwt.verify(token, process.env.SECRET_TOKEN, (err, user) => {
+    jwt.verify(token, process.env.SECRET_TOKEN, async(err, user) => {
         if (err) {
             console.log('Token verification failed:', err.message);
             return res.status(403).json({ message: 'Forbidden: Invalid token' });
         }
 
         console.log('Decoded token:', user);
-        req.user = user;
+        const userMongo = await User.findById(user.userId)
+        req.user = userMongo;
         next();
     });
 };

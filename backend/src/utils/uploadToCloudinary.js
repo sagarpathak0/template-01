@@ -1,6 +1,6 @@
-import cloud from "../config/cloudinary.js";
+const cloud = require("../config/cloudinary.js")
 
-const Upload = async (filePath, userId) => {
+const uploadToCloudinary = async (filePath, userId) => {
   try {
     const file = await cloud.uploader.upload(filePath, {
       upload_preset: "Hackathon",
@@ -14,4 +14,4 @@ const Upload = async (filePath, userId) => {
   }
 };
 
-export default uploadToCloudinary;
+module.exports= uploadToCloudinary;

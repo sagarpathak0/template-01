@@ -1,4 +1,4 @@
-import cloud from "../config/cloudinary.js";
+const cloud = require("../config/cloudinary.js")
 
 const deleteFromCloudinary = async (publicId) => {
     try {

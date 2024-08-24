@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        if (!token && (router.pathname === '/dashboard' || router.pathname === '/upload')) {
+        if (!token && (router.pathname === '/dashboard' || router.pathname === '/upload' || router.pathname === '/chat')) {
             router.push('/auth/login');
         }
     }, [router]);

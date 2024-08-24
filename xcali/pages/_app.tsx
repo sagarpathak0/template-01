@@ -2,14 +2,14 @@ import type { AppProps } from 'next/app';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import '../styles/globals.css';
-import Navbar from './components/Navbar';
+import Navbar from '../components/Navbar';
 
 function MyApp({ Component, pageProps }: AppProps) {
     const router = useRouter();
 
     useEffect(() => {
-        const token = localStorage.getItem('auth');
-        if (!token && router.pathname === '/dashboard') {
+        const token = localStorage.getItem('token');
+        if (!token && (router.pathname === '/dashboard' || router.pathname === '/upload')) {
             router.push('/auth/login');
         }
     }, [router]);

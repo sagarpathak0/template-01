@@ -1,0 +1,39 @@
+import React from "react";
+import FeedItem from "./FeedItem";
+
+const feeds = [
+    {
+        username: "John Doe",
+        avatar: "/path/to/avatar1.jpg",
+        time: "2h ago",
+        content: "This is a sample tweet-like content for the feed.",
+    },
+    {
+        username: "Jane Smith",
+        avatar: "/path/to/avatar2.jpg",
+        time: "4h ago",
+        content: "Another feed item, just like on Twitter!",
+    },
+    // Add more feed items as needed
+];
+
+const FeedPage: React.FC = () => {
+    return (
+        <div className="max-w-2xl mx-auto p-4">
+            <h1 className="text-2xl font-bold mb-4">Feed</h1>
+            <div className="bg-white shadow rounded-lg divide-y divide-gray-200">
+                {feeds.map((feed, index) => (
+                    <FeedItem
+                        key={index}
+                        username={feed.username}
+                        avatar={feed.avatar}
+                        time={feed.time}
+                        content={feed.content}
+                    />
+                ))}
+            </div>
+        </div>
+    );
+};
+
+export default FeedPage;

@@ -15,7 +15,7 @@ export const useAuth = () => {
             if (!token) {
                 setIsAuthenticated(false);
                 setUser(null);
-                router.push('/auth/login');
+                // router.push('/auth/login');
                 return;
             }
 

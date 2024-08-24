@@ -10,7 +10,7 @@ const Home: React.FC = () => {
     <main className="flex flex-col items-center bg-gradient-to-r from-blue-900 via-purple-900 to-blue-900 text-white">
       {user?(
         <>
-          <FeedPage />;
+          <FeedPage />
         </>
       ):(
         <>

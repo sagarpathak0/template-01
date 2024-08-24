@@ -1,6 +1,7 @@
 import { useAuth } from "@/hooks/useAuth";
 import {googleAuthProvider,auth,githubAuthProvider} from "@/config/firebase"
 import {signInWithPopup}from "firebase/auth"
+import Link from "next/link";
 
 interface SidebarProps {
   onClose: () => void;
@@ -42,12 +43,20 @@ export default function Sidebar({ onClose }: SidebarProps) {
             <p className="text-lg font-semibold">Welcome, {user.name}</p>
             <ul className="mt-4">
               <li>
-                <a
+                <Link
                   href="/dashboard"
                   className="block py-2 px-4 hover:bg-gray-700 rounded"
                 >
                   Dashboard
-                </a>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href='/chat'
+                  className="block w-full text-left py-2 px-4 hover:bg-gray-700 rounded"
+                >
+                  Chat
+                </Link>
               </li>
               <li>
                 <button
@@ -57,6 +66,7 @@ export default function Sidebar({ onClose }: SidebarProps) {
                   Logout
                 </button>
               </li>
+              
             </ul>
           </>
         ) : (

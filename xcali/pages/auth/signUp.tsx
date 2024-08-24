@@ -49,6 +49,14 @@ const handleSubmit = async(e:FormEvent<HTMLFormElement>) => {
                 <button type="submit" className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-indigo-500 focus:ring-offset-2">
                     Sign Up
                 </button>
+                <div>
+                    <button className="w-[48%] mr-4 mt-3 bg-indigo-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-indigo-500 focus:ring-offset-2">
+                        Google
+                    </button>
+                    <button className="w-[48%] mt-3 bg-indigo-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-indigo-500 focus:ring-offset-2">
+                        Github
+                    </button>
+                </div>
             </form>
         </div>
     )

@@ -2,10 +2,18 @@ import React from "react";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faDiscord } from "@fortawesome/free-brands-svg-icons";
-
+import FeedPage from "../components/FeedPage";
+import { useAuth } from "@/hooks/useAuth";
 const Home: React.FC = () => {
+  const { user, logout, isAuthenticated } = useAuth();
   return (
     <main className="flex flex-col items-center bg-gradient-to-r from-blue-900 via-purple-900 to-blue-900 text-white">
+      {user?(
+        <>
+          <FeedPage />
+        </>
+      ):(
+        <>
       {/* Hero Section */}
       <section className="flex flex-col items-center justify-center min-h-screen text-center">
         <motion.h1
@@ -164,6 +172,8 @@ const Home: React.FC = () => {
           </a>
         </div>
       </footer>
+      </>
+      )}
     </main>
   );
 };

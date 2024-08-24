@@ -42,7 +42,7 @@ const Dashboard: React.FC = () => {
                     <h1 className="text-3xl font-bold text-gray-800">Dashboard</h1>
                     <div className="flex items-center">
                         <p className="text-gray-700 mr-4">Hello, {user?.name}</p>
-                        <img src={user?.avatar || "/default-avatar.png"} alt="User Avatar" className="w-10 h-10 rounded-full"/>
+                        <img src={user?.profilePic || "/default-avatar.png"} alt="User Avatar" className="w-10 h-10 rounded-full"/>
                     </div>
                 </div>
                 <p className="text-lg text-gray-600 mb-8">Welcome to your dashboard! Only logged-in users can see this.</p>

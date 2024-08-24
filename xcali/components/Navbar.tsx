@@ -2,10 +2,13 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Sidebar from './Sidebar';
 import Link from 'next/link';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function Navbar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
+  const {user}=useAuth();
+
 
   const handleToggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -46,12 +49,10 @@ export default function Navbar() {
               darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'
             }`}
           >
-            <Image
-              src="/next.svg"
+            <img
+              src= {user?.profilePic||"/next.svg"}
               alt="User Avatar"
-              width={40}
-              height={40}
-              className="rounded-full"
+              className="rounded-full w-10 h-10"
             />
           </button>
           {isSidebarOpen && <Sidebar onClose={handleToggleSidebar} />}

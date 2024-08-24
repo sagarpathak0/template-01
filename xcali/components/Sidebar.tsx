@@ -29,6 +29,14 @@ export default function Sidebar({ onClose }: SidebarProps) {
                 </a>
               </li>
               <li>
+                <a
+                  href="/chat"
+                  className="block py-2 px-4 hover:bg-gray-700 rounded"
+                >
+                  Chats
+                </a>
+              </li>
+              <li>
                 <button
                   onClick={logout}
                   className="block w-full text-left py-2 px-4 hover:bg-gray-700 rounded"

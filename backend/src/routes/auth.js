@@ -101,10 +101,12 @@ router.post("/google", async (req, res) => {
       await user.save();
 
       console.log("Google Login Successful", newToken);
-      res.status(200).json({ token: newToken,user:{...user._doc,password:undefined} });
+      res
+        .status(200)
+        .json({ token: newToken, user: { ...user._doc, password: undefined } });
     } else {
       // Create a new user if none exists
-      const newUser = new User({ uid, email, name });
+      const newUser = new User({ uid, email, name, profilePic: picture });
 
       // Save the new user first to get the _id
       await newUser.save();
@@ -122,7 +124,12 @@ router.post("/google", async (req, res) => {
       await newUser.save();
 
       console.log("Google Login Successful", newToken);
-      res.status(200).json({ token: newToken ,user:{...newUser._doc,password:undefined}});
+      res
+        .status(200)
+        .json({
+          token: newToken,
+          user: { ...newUser._doc, password: undefined },
+        });
     }
   } catch (err) {
     console.error(err.message);
@@ -163,7 +170,6 @@ router.post("/github", async (req, res) => {
         }
       );
 
-      
       const salt = await bcrypt.genSalt(12);
       user.password = await bcrypt.hash(newToken, salt);
       await user.save();
@@ -192,12 +198,10 @@ router.post("/github", async (req, res) => {
       await newUser.save();
 
       console.log("GitHub Login Successful", newToken);
-      res
-        .status(200)
-        .json({
-          token: newToken,
-          user: { ...newUser._doc, password: undefined },
-        });
+      res.status(200).json({
+        token: newToken,
+        user: { ...newUser._doc, password: undefined },
+      });
     }
   } catch (err) {
     console.error(err.message);

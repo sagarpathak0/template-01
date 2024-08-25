@@ -110,13 +110,13 @@ const Dashboard: React.FC = () => {
                 <h2 className="text-2xl font-bold mb-6">User Dashboard</h2>
                 <ul>
                     <li className="mb-4">
-                        <a href="/overview" className="text-lg hover:text-indigo-300">Overview</a>
+                        <Link href="/overview" className="text-lg hover:text-indigo-300">Overview</Link>
                     </li>
                     <li className="mb-4">
-                        <a href="setting" className="text-lg hover:text-indigo-300">Settings</a>
+                        <Link href="setting" className="text-lg hover:text-indigo-300">Settings</Link>
                     </li>
                     <li className="mb-4">
-                        <a href="/faq" className="text-lg hover:text-indigo-300">Support</a>
+                        <Link href="/faq" className="text-lg hover:text-indigo-300">Support</Link>
                     </li>
                 </ul>
             </div>

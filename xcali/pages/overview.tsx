@@ -6,6 +6,7 @@ import {
   Tooltip,
   Legend
 } from 'chart.js';
+import Link from 'next/link';
 
 // Register required elements
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -29,13 +30,13 @@ const Overview: React.FC = () => {
                 <h2 className="text-2xl font-bold mb-6">User Overview</h2>
                 <ul>
                     <li className="mb-4">
-                        <a href="/dashboard" className="text-lg hover:text-indigo-300">Dashboard</a>
+                        <Link href="/dashboard" className="text-lg hover:text-indigo-300">Dashboard</Link>
                     </li>
                     <li className="mb-4">
-                        <a href="setting" className="text-lg hover:text-indigo-300">Settings</a>
+                        <Link href="setting" className="text-lg hover:text-indigo-300">Settings</Link>
                     </li>
                     <li className="mb-4">
-                        <a href="/faq" className="text-lg hover:text-indigo-300">Support</a>
+                        <Link href="/faq" className="text-lg hover:text-indigo-300">Support</Link>
                     </li>
                 </ul>
       </div>

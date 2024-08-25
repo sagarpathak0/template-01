@@ -127,7 +127,7 @@ const Home: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.3 }}
             >
-              <p className="text-lg italic mb-4">"{testimonial.feedback}"</p>
+              <p className="text-lg italic mb-4">{testimonial.feedback}</p>
               <h4 className="text-xl font-semibold">{testimonial.name}</h4>
             </motion.div>
           ))}

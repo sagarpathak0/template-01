@@ -40,7 +40,7 @@ const projectSchema = new Schema(
     visible: {
       type: String,
       enum: ["Public", "Private"],
-      default: "Private",
+      default: "Public",
     },
     thumbnail: {
       type: String,
@@ -48,12 +48,12 @@ const projectSchema = new Schema(
     video: {
       type: String,
     },
-    tags:[
+    tags: [
       {
         type: String,
-        index:true,
-      }
-    ]
+        index: true,
+      },
+    ],
   },
   {
     timestamps: true,

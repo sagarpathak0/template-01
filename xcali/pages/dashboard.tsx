@@ -54,7 +54,7 @@ const Dashboard: React.FC = () => {
 
     useEffect(() => {
         handleFetchProjects();
-    }, [handleFetchProjects]);
+    }, []);
 
     const handleCreateProject = () => {
         setShowProjectForm(true);
@@ -238,7 +238,7 @@ const Dashboard: React.FC = () => {
 
                 {/* File Upload Modal */}
                 {showProjectForm && (
-                    <Modal onClose={() => setShowProjectForm(false)}>
+                    <Modal onClose={() => setShowProjectForm(false)} isOpen={false} children={undefined}>
                         <FileUpload
                             onClose={() => setShowProjectForm(false)}
                             onSuccess={(project: Project) => {

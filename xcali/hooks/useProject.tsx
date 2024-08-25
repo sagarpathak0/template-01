@@ -2,6 +2,9 @@ import api from "@/api/api";
 import { useState } from "react";
 
 interface Project {
+  username: string;
+  avatar: string;
+  createdAt: string;
   _id?: string;
   title: string;
   description: string;

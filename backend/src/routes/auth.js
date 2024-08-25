@@ -24,7 +24,7 @@ router.post("/signup", async (req, res) => {
     });
     await user.save();
     const token = jwt.sign({ userId: user._id }, process.env.SECRET_TOKEN, {
-      expiresIn: "1h",
+      expiresIn: "29d"
     });
     console.log("JWT Token generated:", token);
     res
@@ -53,7 +53,7 @@ router.post("/login", async (req, res) => {
     }
 
     const token = jwt.sign({ userId: user._id }, process.env.SECRET_TOKEN, {
-      expiresIn: "1h",
+      expiresIn: "29d"
     });
 
     console.log("Login Successful", token);
@@ -96,7 +96,7 @@ router.post("/google", async (req, res) => {
         { userId: user._id },
         process.env.SECRET_TOKEN,
         {
-          expiresIn: "1h",
+          expiresIn: "29d"
         }
       );
 
@@ -120,7 +120,7 @@ router.post("/google", async (req, res) => {
       const newToken = jwt.sign(
         { userId: newUser._id },
         process.env.SECRET_TOKEN,
-        { expiresIn: "1h" }
+        { expiresIn: "29d" }
       );
 
       // Hash the token and save it as the password
@@ -169,7 +169,7 @@ router.post("/github", async (req, res) => {
         { userId: user._id },
         process.env.SECRET_TOKEN,
         {
-          expiresIn: "1h",
+          expiresIn: "29d"
         }
       );
 
@@ -192,7 +192,7 @@ router.post("/github", async (req, res) => {
       const newToken = jwt.sign(
         { userId: newUser._id },
         process.env.SECRET_TOKEN,
-        { expiresIn: "1h" }
+        { expiresIn: "29d" }
       );
 
       // Hash the token and save it as the password

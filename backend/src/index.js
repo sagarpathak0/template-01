@@ -24,8 +24,8 @@ const io = new Server(server, {
 // Middlewares
 app.use(
   cors({
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: ["*","http://localhost:3000"],
+    methods: ["GET", "POST", "PUT", "DELETE","PATCH"],
   })
 );
 app.use(cookieParser());

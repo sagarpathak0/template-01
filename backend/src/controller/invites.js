@@ -51,6 +51,7 @@ exports.createInvitation = async (req, res) => {
       project.title,
       req.user.name,
       invitationDate
+      
     );
 
     // Send the invitation email

@@ -51,12 +51,12 @@ export default function Sidebar({ onClose }: SidebarProps) {
                 </Link>
               </li>
               <li>
-                <Link
-                  href='/chat'
-                  className="block w-full text-left py-2 px-4 hover:bg-gray-700 rounded"
+                <a
+                  href="/chat"
+                  className="block py-2 px-4 hover:bg-gray-700 rounded"
                 >
-                  Chat
-                </Link>
+                  Chats
+                </a>
               </li>
               <li>
                 <button

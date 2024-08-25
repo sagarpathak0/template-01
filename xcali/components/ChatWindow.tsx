@@ -2,7 +2,7 @@ import React from 'react';
 
 const ChatWindow: React.FC = () => {
   return (
-    <div className="flex-1 bg-white p-4 border-l border-gray-200 flex flex-col h-screen">
+    <div className="flex-1 bg-white p-4 border-l border-gray-200 flex flex-col">
       <div className="border-b border-gray-200 pb-2 mb-4 flex justify-between items-center">
         <h2 className="text-lg font-semibold text-black">Chat Name</h2>
         {/* Placeholder for future actions like settings */}

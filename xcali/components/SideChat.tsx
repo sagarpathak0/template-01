@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Sidebar: React.FC = () => {
+const SideChat: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'personal' | 'group'>('personal');
 
   const handleTabSwitch = (tab: 'personal' | 'group') => {
@@ -8,7 +8,7 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <div className="w-80 bg-gray-50 p-6 border-r border-gray-200 h-screen flex flex-col">
+    <div className="w-80 bg-gray-50 p-6 border-r border-gray-200 flex flex-col">
       {/* Search Bar */}
       <div className="mb-6">
         <input
@@ -51,4 +51,4 @@ const Sidebar: React.FC = () => {
   );
 };
 
-export default Sidebar;
+export default SideChat;

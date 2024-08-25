@@ -1,4 +1,5 @@
 import React from "react";
+import SearchBar from "./searchBar";
 
 const RightSidebar: React.FC = () => {
     return (
@@ -11,6 +12,7 @@ const RightSidebar: React.FC = () => {
                     />
                 </div>
             <div className="mb-6">
+                <SearchBar/>
                 <h2 className="text-xl font-bold">Trending Topics</h2>
             </div>
             <div>

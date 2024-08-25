@@ -5,6 +5,7 @@ const cors = require("cors");
 const authRoutes = require("./routes/auth");
 const projectRoutes = require("./routes/project");
 const invitationRoutes = require("./routes/invitation");
+const SearchRoutes = require("./routes/search");
 const mongoose = require("mongoose");
 const http = require("http");
 const { Server } = require("socket.io");
@@ -49,6 +50,7 @@ io.on("connection", (socket) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/project", projectRoutes);
 app.use("/api/invite", invitationRoutes);
+app.use("/api", SearchRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello, Data");

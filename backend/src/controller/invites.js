@@ -7,7 +7,9 @@ const { sendEmail } = require("../utils/sendEmail");
 exports.createInvitation = async (req, res) => {
   try {
     const { projectId, invitedUserEmail } = req.body;
+    console.log(projectId,invitedUserEmail)
     const inviterId = req.user._id;
+    console.log(inviterId)
 
     // Check if project exists
     const project = await Project.findById(projectId);
@@ -23,8 +25,9 @@ exports.createInvitation = async (req, res) => {
 
     // Check if an invitation already exists
     const existingInvitation = await Invitation.findOne({
-      project: projectId,
-      invitedUser: invitedUser._id,
+      projectId: projectId,
+      inviteeId: invitedUser._id,
+      inviterId: inviterId,
       status: "Pending",
     });
 
@@ -34,16 +37,16 @@ exports.createInvitation = async (req, res) => {
 
     // Create a new invitation
     const newInvitation = new Invitation({
-      project: projectId,
-      invitedUser: invitedUser._id,
-      inviter: inviterId,
+      projectId: projectId,
+      inviteeId: invitedUser._id,
+      inviterId: inviterId,
     });
 
     // Save the invitation
     await newInvitation.save();
 
     // Generate invitation email content
-    const invitationDate = newInvitation.sentAt.toDateString();
+    const invitationDate = newInvitation.createdAt.toDateString();
     const htmlContent = generateInvitationHtml(
       project.title,
       req.user.name,
@@ -63,9 +66,7 @@ exports.createInvitation = async (req, res) => {
     });
   } catch (error) {
     console.error("Error sending invitation:", error);
-    res
-      .status(500)
-      .json({ message: "Server Error. Unable to send invitation." });
+    res.status(500).json({ message: "Server Error. Unable to send invitation." });
   }
 };
 
@@ -98,13 +99,13 @@ exports.acceptInvitation = async (req, res) => {
       return res.status(404).json({ message: "Project not found." });
     }
 
-    if (project.collaborators.includes(userId)) {
+    if (project.collabrates.includes(userId)) {
       return res
         .status(400)
         .json({ message: "User is already a collaborator." });
     }
 
-    project.collaborators.push(userId);
+    project.collabrates.push(userId);
     await project.save();
 
     res.status(200).json({

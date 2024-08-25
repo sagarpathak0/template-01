@@ -48,6 +48,12 @@ const projectSchema = new Schema(
     video: {
       type: String,
     },
+    tags:[
+      {
+        type: String,
+        index:true,
+      }
+    ]
   },
   {
     timestamps: true,

@@ -1,4 +1,4 @@
-exports.generateInvitationHtml = function(projectName, inviterName, invitationDate) {
+exports.generateInvitationHtml = function(projectName, inviterName, invitationDate, acceptUrl, rejectUrl) {
     return `
     <!DOCTYPE html>
     <html lang="en">
@@ -54,6 +54,9 @@ exports.generateInvitationHtml = function(projectName, inviterName, invitationDa
                 font-size: 16px;
                 text-transform: uppercase;
                 width: 48%;
+                text-decoration: none;
+                display: inline-block;
+                text-align: center;
             }
             .accept-btn {
                 background-color: #28a745;
@@ -91,8 +94,8 @@ exports.generateInvitationHtml = function(projectName, inviterName, invitationDa
             <p>You have been invited to collaborate on this project. Would you like to accept the invitation?</p>
             
             <div class="buttons">
-                <button class="button accept-btn">Accept</button>
-                <button class="button reject-btn">Reject</button>
+                <a href="${acceptUrl}" class="button accept-btn">Accept</a>
+                <a href="${rejectUrl}" class="button reject-btn">Reject</a>
             </div>
 
             <div class="footer">
@@ -102,4 +105,4 @@ exports.generateInvitationHtml = function(projectName, inviterName, invitationDa
     </body>
     </html>
     `;
-}
+};

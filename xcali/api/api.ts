@@ -7,7 +7,7 @@ const getToken = () => {
 };
 
 const api = axios.create({
-  baseURL: "http://localhost:8080/",
+  baseURL: "https://template-01-sepia.vercel.app/",
 });
 
 api.interceptors.request.use(

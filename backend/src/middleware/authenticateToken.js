@@ -5,13 +5,13 @@ require('dotenv').config();
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers.authorization || '';
     const token = authHeader.split(" ")[1] || req.cookies.token || req.body.token;
-    console.log("Token",token)
+    // console.log("Token",token)
     if (!token) {
         console.log('No token provided');
         return res.status(401).json({ message: 'Unauthorized: No token provided' });
     }
 
-    console.log('Received token:', token);
+    // console.log('Received token:', token);
 
     jwt.verify(token, process.env.SECRET_TOKEN, async(err, user) => {
         if (err) {

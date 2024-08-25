@@ -1,9 +1,9 @@
-const cloud = require("../config/cloudinary.js")
+const cloudinary = require("../config/cloudinary.js")
 
 const uploadToCloudinary = async (filePath, userId) => {
   try {
-    const file = await cloud.uploader.upload(filePath, {
-      upload_preset: "Hackathon",
+    const file = await cloudinary.uploader.upload(filePath, {
+      // upload_preset: "Hackathon",
       use_filename: true,
       unique_filename: false,
       folder: `users/${userId}/`,

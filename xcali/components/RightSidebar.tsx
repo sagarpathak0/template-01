@@ -1,9 +1,11 @@
 import React from "react";
+import SearchBar from "./searchBar";
 
 const RightSidebar: React.FC = () => {
     return (
         <div className="w-64 p-4 bg-gray-100 h-screen fixed right-0">
             <div className="mb-6">
+                <SearchBar/>
                 <h2 className="text-xl font-bold">Trending Topics</h2>
             </div>
             <div>

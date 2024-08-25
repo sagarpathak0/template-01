@@ -5,8 +5,9 @@ const InvitationSchema = new mongoose.Schema({
     inviterId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     inviteeId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     status: { type: String, enum: ['Pending', 'Accepted', 'Rejected'], default: 'Pending' },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now },
+   
+},{
+    timestamps: true
 });
 
 module.exports = mongoose.model('Invitation', InvitationSchema);

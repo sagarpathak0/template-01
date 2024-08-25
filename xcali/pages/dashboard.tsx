@@ -34,14 +34,15 @@ const Dashboard: React.FC = () => {
 
     const handleFetchProjects = useCallback(async () => {
         try {
+            let response;
             if (activeTab === "owned") {
-                const response = await getAllProjects();
+                response = await getAllProjects();
                 if (response && response.projects) {
                     setProjects(response.projects);
                     localStorage.setItem("projects", JSON.stringify(response.projects));
                 }
             } else if (activeTab === "collaborated") {
-                const response = await getProjectByCollab();
+                response = await getProjectByCollab();
                 if (response && response.projects) {
                     setProjects(response.projects);
                 }
@@ -49,7 +50,7 @@ const Dashboard: React.FC = () => {
         } catch (error) {
             console.error("Failed to fetch projects:", error);
         }
-    }, []);
+    }, [activeTab, getAllProjects, getProjectByCollab]);
 
     useEffect(() => {
         handleFetchProjects();
@@ -67,7 +68,7 @@ const Dashboard: React.FC = () => {
     const handleDeleteProject = async (projectId: string) => {
         try {
             await deleteProject(projectId);
-            setProjects(projects.filter(project => project._id !== projectId));
+            setProjects(projects.filter((project) => project._id !== projectId));
         } catch (error) {
             console.error("Failed to delete project:", error);
         }
@@ -110,13 +111,13 @@ const Dashboard: React.FC = () => {
                 <h2 className="text-2xl font-bold mb-6">User Dashboard</h2>
                 <ul>
                     <li className="mb-4">
-                        <a href="/overview" className="text-lg hover:text-indigo-300">Overview</a>
+                        <Link href="/overview" className="text-lg hover:text-indigo-300">Overview</Link>
                     </li>
                     <li className="mb-4">
-                        <a href="setting" className="text-lg hover:text-indigo-300">Settings</a>
+                        <Link href="/setting" className="text-lg hover:text-indigo-300">Settings</Link>
                     </li>
                     <li className="mb-4">
-                        <a href="/faq" className="text-lg hover:text-indigo-300">Support</a>
+                        <Link href="/faq" className="text-lg hover:text-indigo-300">Support</Link>
                     </li>
                 </ul>
             </div>
@@ -154,7 +155,7 @@ const Dashboard: React.FC = () => {
                         <div className="bg-yellow-100 border border-yellow-300 text-yellow-800 p-4 rounded-lg mb-6">
                             <h3 className="text-lg font-semibold">Pending Invitations</h3>
                             <ul>
-                                {invitations.filter(inv => inv.status === "pending").map(invitation => (
+                                {invitations.filter((inv) => inv.status === "pending").map((invitation) => (
                                     <li key={invitation._id} className="flex justify-between items-center mb-2 p-2 border-b border-gray-300">
                                         <span>{invitation.sender} invited you to a project</span>
                                         <div className="flex gap-2">
@@ -180,7 +181,7 @@ const Dashboard: React.FC = () => {
                     {/* Project List */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                         {projects.length > 0 ? (
-                            projects.map(project => (
+                            projects.map((project) => (
                                 <Link key={project._id} href={`/project/${project._id}`} passHref>
                                     <div className="bg-white shadow-md rounded-lg p-4 relative cursor-pointer">
                                         <img src={project.thumbnail || "/default-thumbnail.png"} alt="Project Thumbnail" className="w-full h-32 object-cover rounded-md mb-4"/>
@@ -222,36 +223,31 @@ const Dashboard: React.FC = () => {
                                 </Link>
                             ))
                         ) : (
-                            <p className="text-gray-600">No projects available.</p>
+                            <p className="text-gray-600">No projects found.</p>
                         )}
                     </div>
                 </div>
 
-                {/* Create Project Form */}
-                {showProjectForm && (
-                    <Modal isOpen={showProjectForm} onClose={() => setShowProjectForm(false)}>
-                        <div className="relative bg-white p-6 rounded-lg shadow-lg">
-                            {/* Close Button */}
-                            <button
-                                onClick={() => setShowProjectForm(false)}
-                                className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
-                            >
-                                <span className="text-2xl font-bold">×</span>
-                            </button>
-
-                            <h2 className="text-2xl font-bold mb-4 text-gray-800">Create New Project</h2>
-                            <FileUpload />
-                        </div>
-                    </Modal>
-                )}
-
-                {/* Floating + Icon */}
+                {/* Create Project Button */}
                 <button
                     onClick={handleCreateProject}
-                    className="fixed bottom-8 right-8 bg-indigo-600 text-white p-4 rounded-full shadow-lg hover:bg-indigo-700"
+                    className="fixed bottom-8 right-8 bg-indigo-600 text-white p-4 rounded-full shadow-lg hover:bg-indigo-700 transition-colors"
                 >
                     <FaPlus size={24} />
                 </button>
+
+                {/* File Upload Modal */}
+                {showProjectForm && (
+                    <Modal onClose={() => setShowProjectForm(false)}>
+                        <FileUpload
+                            onClose={() => setShowProjectForm(false)}
+                            onSuccess={(project: Project) => {
+                                setProjects((prev) => [project, ...prev]);
+                                setShowProjectForm(false);
+                            }}
+                        />
+                    </Modal>
+                )}
             </main>
         </div>
     );

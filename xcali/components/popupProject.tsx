@@ -1,11 +1,14 @@
-// components/ProjectPopup.tsx
 import { useState, useEffect } from "react";
 import { useProject } from "@/hooks/useProject";
 
+interface User {
+  email: string;
+}
+
 interface ProjectPopupProps {
   onClose: () => void;
-  onAddCollaborator: (projectId: string,email:string) => void;
-  user: (email: string) => void;
+  onAddCollaborator: (projectId: string, email: string) => void;
+  user: User;
 }
 
 const ProjectPopup: React.FC<ProjectPopupProps> = ({
@@ -37,7 +40,7 @@ const ProjectPopup: React.FC<ProjectPopupProps> = ({
           {projects.map((project) => (
             <li
               key={project._id}
-              className="mb-2 flex  justify-between items-center"
+              className="mb-2 flex justify-between items-center"
             >
               <span className="text-black">{project.title}</span>
               <button

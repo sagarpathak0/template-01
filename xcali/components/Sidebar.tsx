@@ -51,12 +51,12 @@ export default function Sidebar({ onClose }: SidebarProps) {
                 </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/chat"
                   className="block py-2 px-4 hover:bg-gray-700 rounded"
                 >
                   Chats
-                </a>
+                </Link>
               </li>
               <li>
                 <button
@@ -72,20 +72,20 @@ export default function Sidebar({ onClose }: SidebarProps) {
         ) : (
           <ul>
             <li>
-              <a
+              <Link
                 href="/auth/login"
                 className="block py-2 px-4 hover:bg-gray-700 rounded"
               >
                 Login
-              </a>
+              </Link>
             </li>
             <li>
-              <a
+              <Link
                 href="/auth/signUp"
                 className="block py-2 px-4 hover:bg-gray-700 rounded"
               >
                 Register
-              </a>
+              </Link>
             </li>
           </ul>
         )}

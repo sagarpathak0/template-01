@@ -2,29 +2,36 @@ import React from "react";
 
 const RightSidebar: React.FC = () => {
     return (
-        <div className="w-64 p-4 bg-gray-100 h-screen fixed right-0">
+        <div className="w-[20%] p-4 bg-gradient-to-r from-blue-900 to to-red-500 h-screen fixed right-0">
+            <div className="mb-4 flex items-center">
+                    <input
+                        type="text"
+                        placeholder="Search..."
+                        className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                </div>
             <div className="mb-6">
                 <h2 className="text-xl font-bold">Trending Topics</h2>
             </div>
             <div>
                 <ul>
                     <li className="mb-4">
-                        <a href="#" className="text-lg font-medium text-gray-700 hover:text-gray-900">
+                        <a href="#" className="text-lg font-medium text-black hover:text-gray-900">
                             #TechNews
                         </a>
                     </li>
                     <li className="mb-4">
-                        <a href="#" className="text-lg font-medium text-gray-700 hover:text-gray-900">
+                        <a href="#" className="text-lg font-medium text-black hover:text-gray-900">
                             #WebDevelopment
                         </a>
                     </li>
                     <li className="mb-4">
-                        <a href="#" className="text-lg font-medium text-gray-700 hover:text-gray-900">
+                        <a href="#" className="text-lg font-medium text-black hover:text-gray-900">
                             #ReactJS
                         </a>
                     </li>
                     <li className="mb-4">
-                        <a href="#" className="text-lg font-medium text-gray-700 hover:text-gray-900">
+                        <a href="#" className="text-lg font-medium text-black hover:text-gray-900">
                             #NextJS
                         </a>
                     </li>

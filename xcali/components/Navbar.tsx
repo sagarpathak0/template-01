@@ -27,7 +27,7 @@ export default function Navbar() {
       >
         <div className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-800'}`}>
 
-          <Link href="/">MyApp</Link>
+          <Link href="/">X-CAL!</Link>
 
         </div>
         <div className="flex items-center gap-4">

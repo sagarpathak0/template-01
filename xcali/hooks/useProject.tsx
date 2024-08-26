@@ -2,15 +2,15 @@ import api from "@/api/api";
 import { useState } from "react";
 
 interface Project {
-  thumbnail: string;
-  username: string;
-  avatar: string;
-  createdAt: string;
+  thumbnail?: string;
+  username?: string;
+  avatar?: string;
+  createdAt?: string;
   _id?: string;
-  title: string;
-  description: string;
-  visible: string;
-  tags: string[];
+  title?: string;
+  description?: string;
+  visible?: string;
+  tags?: string[];
 }
 
 interface ProjectResponse {

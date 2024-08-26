@@ -24,8 +24,9 @@ const io = new Server(server, {
 // Middlewares
 app.use(
   cors({
-    origin: ["*","http://localhost:3000","http://xcali-alpha.vercel.app"],
-    methods: ["GET", "POST", "PUT", "DELETE","PATCH"],
+    origin: ["*", "http://localhost:3000", "http://xcali-alpha.vercel.app"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 app.use(cookieParser());

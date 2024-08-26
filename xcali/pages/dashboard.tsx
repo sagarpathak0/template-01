@@ -5,24 +5,21 @@ import Modal from "@/components/Modal";
 import { useAuth } from "@/hooks/useAuth";
 import { useProject } from "@/hooks/useProject";
 import Link from "next/link";
-
 interface Project {
     _id?: string;
-    title?: string;
-    description?: string;
-    visible?: string;
-    tags?: string[];
+    title: string;
+    description: string;
+    visible: string;
+    tags: string[];
     thumbnail?: string; // Assuming this field for image
 }
-
 interface Invitation {
-    _id?: string;
-    projectId?: string;
-    sender?: string;
-    receiver?: string;
-    status?: "pending" | "accepted" | "rejected";
+    _id: string;
+    projectId: string;
+    sender: string;
+    receiver: string;
+    status: "pending" | "accepted" | "rejected";
 }
-
 const Dashboard: React.FC = () => {
     const [showProjectForm, setShowProjectForm] = useState(false);
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -31,7 +28,6 @@ const Dashboard: React.FC = () => {
     const [invitations, setInvitations] = useState<Invitation[]>([]);
     const { getAllProjects, getProjectByCollab, deleteProject } = useProject();
     const { user } = useAuth();
-
     const handleFetchProjects = useCallback(async () => {
         try {
             if (activeTab === "owned") {
@@ -42,37 +38,32 @@ const Dashboard: React.FC = () => {
                 }
             } else if (activeTab === "collaborated") {
                 const response = await getProjectByCollab();
-                if (response && response.project) {
-                    setProjects(response.project);
+                if (response && response.projects) {
+                    setProjects(response.projects);
                 }
             }
         } catch (error) {
             console.error("Failed to fetch projects:", error);
         }
-    }, [activeTab, getAllProjects, getProjectByCollab]);
-
+    }, []);
     useEffect(() => {
         handleFetchProjects();
-    }, [handleFetchProjects]);
-
+    }, []);
     const handleCreateProject = () => {
         setShowProjectForm(true);
     };
-
     const handleEditProject = (project: Project) => {
         setSelectedProject(project);
         // Instead of showing modal, navigate to edit page
     };
-
     const handleDeleteProject = async (projectId: string) => {
         try {
             await deleteProject(projectId);
-            setProjects(prevProjects => prevProjects.filter(project => project._id !== projectId));
+            setProjects(projects.filter(project => project._id !== projectId));
         } catch (error) {
             console.error("Failed to delete project:", error);
         }
     };
-
     const handleLeaveProject = async (projectId: string) => {
         try {
             // Implement the logic for the user to leave a project
@@ -80,11 +71,9 @@ const Dashboard: React.FC = () => {
             console.error("Failed to leave project:", error);
         }
     };
-
     const handleTabChange = (tab: "owned" | "collaborated") => {
         setActiveTab(tab);
     };
-
     const handleAcceptInvitation = async (invitationId: string) => {
         try {
             // Implement the logic for accepting an invitation
@@ -93,7 +82,6 @@ const Dashboard: React.FC = () => {
             console.error("Failed to accept invitation:", error);
         }
     };
-
     const handleRejectInvitation = async (invitationId: string) => {
         try {
             // Implement the logic for rejecting an invitation
@@ -102,7 +90,6 @@ const Dashboard: React.FC = () => {
             console.error("Failed to reject invitation:", error);
         }
     };
-
     return (
         <div className="flex min-h-screen bg-gray-50">
             {/* Sidebar */}
@@ -110,15 +97,15 @@ const Dashboard: React.FC = () => {
                 <h2 className="text-2xl font-bold mb-6">User Dashboard</h2>
                 <ul>
                     <li className="mb-4">
-                        <a href="/overview" className="text-lg hover:text-indigo-300">Overview</a>
+                        
                         <Link href="/overview" className="text-lg hover:text-indigo-300">Overview</Link>
                     </li>
                     <li className="mb-4">
-                        <a href="setting" className="text-lg hover:text-indigo-300">Settings</a>
+                        
                         <Link href="setting" className="text-lg hover:text-indigo-300">Settings</Link>
                     </li>
                     <li className="mb-4">
-                        <a href="/faq" className="text-lg hover:text-indigo-300">Support</a>
+                      
                         <Link href="/faq" className="text-lg hover:text-indigo-300">Support</Link>
                     </li>
                     <li className="mb-4">
@@ -162,15 +149,15 @@ const Dashboard: React.FC = () => {
                                     <li key={invitation._id} className="flex justify-between items-center mb-2 p-2 border-b border-gray-300">
                                         <span>{invitation.sender} invited you to a project</span>
                                         <div className="flex gap-2">
-                                            <button
+                                            <div
                                                 onClick={() => handleAcceptInvitation(invitation._id)}
                                                 className="text-green-600 hover:text-green-800"
                                                 role="button"
                                                 aria-label="check"
                                             >
                                                 <FaCheck size={16} />
-                                            </button>
-                                            <button
+                                            </div>
+                                            <div
                                                 onClick={() => handleRejectInvitation(invitation._id)}
                                                 className="text-red-600 hover:text-red-800"
                                                 role="button"
@@ -211,59 +198,67 @@ const Dashboard: React.FC = () => {
                                                         aria-label="trash"
                                                     >
                                                         <FaTrash size={16} />
-                                                    </button>
-                                                    <button className="text-green-600 hover:text-green-800">
+                                                    </div>
+                                                    <div 
+                                                        className="text-green-600 hover:text-green-800"
+                                                        role="button"
+                                                        aria-label="check"
+                                                    >
                                                         <FaCheck size={16} />
-                                                    </button>
-                                                    <button className="text-gray-600 hover:text-gray-800">
+                                                    </div>
+                                                    <div
+                                                        className="text-gray-600 hover:text-gray-800"
+                                                        role="button"
+                                                        aria-label="check"
+                                                    >
                                                         <FaUserPlus size={16} />
-                                                    </button>
+                                                    </div>
                                                 </>
+                                            )}
+                                            {activeTab === "collaborated" && (
+                                                <button
+                                                    onClick={() => handleLeaveProject(project._id!)}
+                                                    className="text-red-600 hover:text-red-800"
+                                                >
+                                                    Leave
+                                                </button>
                                             )}
                                         </div>
                                     </div>
                                 </Link>
                             ))
                         ) : (
-                            <p className="text-gray-500">No projects available.</p>
+                            <p className="text-gray-600">No projects available.</p>
                         )}
                     </div>
-                    {/* Add Project Button */}
-                    {activeTab === "owned" && (
-                        <div className="mt-8 text-center">
+                </div>
+                {/* Create Project Form */}
+                {showProjectForm && (
+                    <Modal isOpen={showProjectForm} onClose={() => setShowProjectForm(false)}>
+                        <div className="relative bg-white p-6 rounded-lg shadow-lg">
+                            {/* Close Button */}
                             <button
-                                onClick={handleCreateProject}
-                                className="bg-indigo-600 text-white py-2 px-4 rounded-lg flex items-center mx-auto"
+                                onClick={() => setShowProjectForm(false)}
+                                className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
                             >
-                                <FaPlus className="mr-2" />
-                                Add New Project
+                                <span className="text-2xl font-bold">×</span>
                             </button>
+                            <h2 className="text-2xl font-bold mb-4 text-gray-800">Create New Project</h2>
+                            <FileUpload />
                         </div>
                     </Modal>
                 )}
                 {/* Floating + Icon */}
-                <button
+                <div
                     onClick={handleCreateProject}
                     className="fixed bottom-8 right-8 bg-indigo-600 text-white p-4 rounded-full shadow-lg hover:bg-indigo-700"
+                    role="button"
+                    aria-label="plus"
                 >
                     <FaPlus size={24} />
-                </button>
+                </div>
             </main>
-            {/* File Upload and Modals */}
-            {showProjectForm && (
-                <Modal onClose={() => setShowProjectForm(false)}>
-                    <FileUpload
-                        project={selectedProject}
-                        onSubmit={(data) => {
-                            // Handle form submission
-                            setShowProjectForm(false);
-                            handleFetchProjects();
-                        }}
-                    />
-                </Modal>
-            )}
         </div>
     );
 };
-
 export default Dashboard;

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { FaPlus, FaUserPlus, FaEdit, FaTrash, FaCheck, FaTimes } from "react-icons/fa";
+import { FaPlus, FaEdit, FaTrash, FaCheck, FaTimes } from "react-icons/fa";
 import FileUpload from "@/components/FileUpload";
 import Modal from "@/components/Modal";
 import { useAuth } from "@/hooks/useAuth";
@@ -38,8 +38,8 @@ const Dashboard: React.FC = () => {
                 }
             } else if (activeTab === "collaborated") {
                 const response = await getProjectByCollab();
-                if (response && response.projects) {
-                    setProjects(response.projects);
+                if (response && response.project) {
+                    setProjects(response.data.project);
                 }
             }
         } catch (error) {
@@ -97,20 +97,19 @@ const Dashboard: React.FC = () => {
                 <h2 className="text-2xl font-bold mb-6">User Dashboard</h2>
                 <ul>
                     <li className="mb-4">
-                        
-                        <Link href="/overview" className="text-lg hover:text-indigo-300">Overview</Link>
+                        <Link href="/overview" passHref legacyBehavior>
+                            <a className="text-lg hover:text-indigo-300">Overview</a>
+                        </Link>
                     </li>
                     <li className="mb-4">
-                        
-                        <Link href="setting" className="text-lg hover:text-indigo-300">Settings</Link>
+                        <Link href="/setting" passHref  legacyBehavior>
+                            <a className="text-lg hover:text-indigo-300">Settings</a>
+                        </Link>
                     </li>
                     <li className="mb-4">
-                      
-                        <Link href="/faq" className="text-lg hover:text-indigo-300">Support</Link>
-                    </li>
-                    <li className="mb-4">
-                      
-                        <Link href="/meeting" className="text-lg hover:text-indigo-300">Meeting</Link>
+                        <Link href="/faq" passHref legacyBehavior>
+                            <a className="text-lg hover:text-indigo-300">Support</a>
+                        </Link>
                     </li>
                 </ul>
             </div>
@@ -149,22 +148,18 @@ const Dashboard: React.FC = () => {
                                     <li key={invitation._id} className="flex justify-between items-center mb-2 p-2 border-b border-gray-300">
                                         <span>{invitation.sender} invited you to a project</span>
                                         <div className="flex gap-2">
-                                            <div
-                                                onClick={() => handleAcceptInvitation(invitation._id)}
+                                            <button
+                                                onClick={() => handleAcceptInvitation(invitation._id!)}
                                                 className="text-green-600 hover:text-green-800"
-                                                role="button"
-                                                aria-label="check"
                                             >
                                                 <FaCheck size={16} />
-                                            </div>
-                                            <div
-                                                onClick={() => handleRejectInvitation(invitation._id)}
+                                            </button>
+                                            <button
+                                                onClick={() => handleRejectInvitation(invitation._id!)}
                                                 className="text-red-600 hover:text-red-800"
-                                                role="button"
-                                                aria-label="check"
                                             >
                                                 <FaTimes size={16} />
-                                            </div>
+                                            </button>
                                         </div>
                                     </li>
                                 ))}
@@ -181,38 +176,23 @@ const Dashboard: React.FC = () => {
                                         <h3 className="text-lg font-semibold text-gray-800">{project.title}</h3>
                                         <p className="text-gray-600 mb-4">{project.description}</p>
                                         <div className="absolute top-2 right-2 flex gap-2">
-                                            <div
-                                                role="button"
+                                            <button
                                                 onClick={() => handleEditProject(project)}
                                                 className="text-indigo-600 hover:text-indigo-800"
-                                                aria-label="size-project"
                                             >
                                                 <FaEdit size={16} />
-                                            </div>
+                                            </button>
                                             {activeTab === "owned" && (
                                                 <>
-                                                    <div
-                                                        role="button"
+                                                    <button
                                                         onClick={() => handleDeleteProject(project._id!)}
                                                         className="text-red-600 hover:text-red-800"
-                                                        aria-label="trash"
                                                     >
                                                         <FaTrash size={16} />
-                                                    </div>
-                                                    <div 
-                                                        className="text-green-600 hover:text-green-800"
-                                                        role="button"
-                                                        aria-label="check"
-                                                    >
-                                                        <FaCheck size={16} />
-                                                    </div>
-                                                    <div
-                                                        className="text-gray-600 hover:text-gray-800"
-                                                        role="button"
-                                                        aria-label="check"
-                                                    >
-                                                        <FaUserPlus size={16} />
-                                                    </div>
+                                                    </button>
+                                                    <button className="text-green-600 hover:text-green-800" onClick={() => handleLeaveProject(project._id!)}>
+                                                        Leave
+                                                    </button>
                                                 </>
                                             )}
                                             {activeTab === "collaborated" && (
@@ -246,18 +226,23 @@ const Dashboard: React.FC = () => {
                             <h2 className="text-2xl font-bold mb-4 text-gray-800">Create New Project</h2>
                             <FileUpload />
                         </div>
-                    </Modal>
-                )}
-                {/* Floating + Icon */}
-                <div
-                    onClick={handleCreateProject}
-                    className="fixed bottom-8 right-8 bg-indigo-600 text-white p-4 rounded-full shadow-lg hover:bg-indigo-700"
-                    role="button"
-                    aria-label="plus"
-                >
-                    <FaPlus size={24} />
+                    )}
                 </div>
             </main>
+            {/* File Upload and Modals */}
+            {showProjectForm && (
+                <Modal onClose={() => setShowProjectForm(false)} isOpen={showProjectForm}>
+                <FileUpload
+                    project={selectedProject}
+                    onSubmit={() => {
+                        // Handle form submission
+                        setShowProjectForm(false);
+                        handleFetchProjects();
+                    }}
+                />
+            </Modal>
+            
+            )}
         </div>
     );
 };

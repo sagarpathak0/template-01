@@ -24,7 +24,7 @@ const io = new Server(server, {
 // Middlewares
 app.use(
   cors({
-    origin: ["*", "http://localhost:3000", "https://xcali-alpha.vercel.app"],
+    origin: ["*", "http://localhost:3000", "https://xcali-alpha.vercel.app","xcali-a50eeriz5-sagarpathak0s-projects.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })

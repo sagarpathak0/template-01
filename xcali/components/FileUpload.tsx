@@ -19,7 +19,7 @@ interface Project {
 
 interface FileUploadProps {
   project: Project | null;
-  onSubmit: (data: any) => void; // Adjust the type of `data` based on your requirements
+  onSubmit: (data: any) => void; 
 }
 
 const FileUpload: React.FC<FileUploadProps> = () => {

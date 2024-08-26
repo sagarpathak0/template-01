@@ -4,6 +4,21 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useProject } from "@/hooks/useProject";
 
+interface Attachment {
+  _id: string;
+  url: string;
+}
+
+interface Project {
+  _id?: string;
+  title?: string;
+  description?: string;
+  visible?: string;
+  tags?: string[];
+  thumbnail?: string;
+  attachments?: Attachment[];
+}
+
 const ProjectDetails = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -18,30 +33,34 @@ const ProjectDetails = () => {
 
   const [project, setProject] = useState<Project | null>(null);
   const [editing, setEditing] = useState(false);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [visible, setVisible] = useState("Private");
-  const [tags, setTags] = useState("");
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [visible, setVisible] = useState<string>("Private");
+  const [tags, setTags] = useState<string>("");
   const [attachments, setAttachments] = useState<File[]>([]);
   const [thumbnail, setThumbnail] = useState<File | null>(null);
 
   useEffect(() => {
     const fetchProject = async () => {
       if (id) {
-        const response = await getAllProjects();
-        const project = response.projects.find((p: Project) => p._id === id);
-        setProject(project || null);
-        if (project) {
-          setTitle(project.title);
-          setDescription(project.description);
-          setVisible(project.visible);
-          setTags(project.tags.join(", "));
+        try {
+          const response = await getAllProjects();
+          const project = response.projects.find((p) => p._id === id);
+          setProject(project || null);
+          if (project) {
+            setTitle(project.title || "");
+            setDescription(project.description || "");
+            setVisible(project.visible || "Private");
+            setTags(project.tags?.join(", ") || "");
+          }
+        } catch (error) {
+          console.error("Fetch Project Error", error);
         }
       }
     };
 
     fetchProject();
-  }, []);
+  }, [id, getAllProjects]);
 
   const handleUpdate = async () => {
     if (project) {
@@ -98,16 +117,16 @@ const ProjectDetails = () => {
               </p>
               <p className="mt-2">
                 <span className="font-semibold text-black">Tags:</span>{" "}
-                {project.tags.join(", ")}
+                {project.tags?.join(", ")}
               </p>
 
               {project.attachments && (
                 <div className="mt-4">
                   <h3 className="text-lg font-semibold text-black mb-2">Attachments:</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    {project.attachments.map((attachment, index) => (
+                    {project.attachments.map((attachment) => (
                       <div
-                        key={index}
+                        key={attachment._id}
                         className="relative p-2 bg-gray-100 rounded-lg shadow-md"
                       >
                         <a
@@ -116,11 +135,11 @@ const ProjectDetails = () => {
                           rel="noopener noreferrer"
                           className="block"
                         >
-                          <img src={attachment.url} className="truncate"></img>
+                          <img src={attachment.url} className="truncate" alt="Attachment" />
                         </a>
                         <button
                           onClick={() =>
-                            removeAttachments(project._id!, attachment._id!)
+                            removeAttachments(project._id!, attachment._id)
                           }
                           className="absolute bottom-2 right-2 text-red-600 hover:text-red-800"
                         >

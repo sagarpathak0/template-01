@@ -1,16 +1,21 @@
+// hooks/useProject.ts
+
 import api from "@/api/api";
 import { useState } from "react";
 
+interface Attachment {
+  _id: string;
+  url: string;
+}
+
 interface Project {
-  thumbnail?: string;
-  username?: string;
-  avatar?: string;
-  createdAt?: string;
   _id?: string;
   title?: string;
   description?: string;
   visible?: string;
   tags?: string[];
+  thumbnail?: string;
+  attachments?: Attachment[];
 }
 
 interface ProjectResponse {
@@ -47,14 +52,15 @@ export const useProject = () => {
     }
   };
 
-  const getAllProjects = async () => {
+  const getAllProjects = async (): Promise<ProjectsResponse> => {
     try {
-      const res = await api.get("/api/project/my-projects");
+      const res = await api.get<ProjectsResponse>("/api/project/my-projects");
       setProjects(res.data.projects);
       localStorage.setItem("projects", JSON.stringify(res.data.projects));
       return res.data;
     } catch (error) {
       console.error("Get All Projects Error", error);
+      throw error;
     }
   };
 
@@ -137,7 +143,7 @@ export const useProject = () => {
       const formData = new FormData();
       formData.append("thumbnail", thumbnail);
 
-      const res = await api.post(
+      const res = await api.post<ProjectResponse>(
         `/api/project/${projectId}/upload-thumbnail`,
         formData,
         {
@@ -164,17 +170,16 @@ export const useProject = () => {
     }
   };
 
-  const allproject = async()=>{
-    try{
-      const res = await api.get(`/api/project/all`)
-      setProject(res.data.project)
-      localStorage.setItem("public",JSON.stringify(res.data.projects))
-      return res.data
-    }
-    catch(err){
+  const allproject = async () => {
+    try {
+      const res = await api.get<ProjectsResponse>(`/api/project/all`);
+      setProjects(res.data.projects);
+      localStorage.setItem("public", JSON.stringify(res.data.projects));
+      return res.data;
+    } catch (err) {
       console.error("Error", err);
     }
-  }
+  };
 
   return {
     allproject,
@@ -189,7 +194,6 @@ export const useProject = () => {
     uploadAttachments,
     updateAttachments,
     uploadThumbnail,
-    getProjectByCollab
-    
+    getProjectByCollab,
   };
 };

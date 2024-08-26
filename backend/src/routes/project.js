@@ -13,6 +13,7 @@ const {
   uploadAttachments,
   uploadThumbnail,
   getCollaboratedProjects,
+  allProjects,
 } = require("../controller/project.js");
 
 const authenticateToken = require("../middleware/authenticateToken.js");
@@ -49,5 +50,7 @@ router.post(
 router.post("/:projectId/upload-thumbnail",authenticateToken, upload.single("thumbnail"), uploadThumbnail);
 
 router.get('/collaborated', authenticateToken, getCollaboratedProjects);
+
+router.get("/all",authenticateToken,allProjects);
 
 module.exports = router;

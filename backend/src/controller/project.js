@@ -271,7 +271,7 @@ exports.uploadAttachments = async (req, res) => {
     let videoUrl = "";
     let thumbnailUrl = "";
 
-    console.log(req.files)
+    console.log(req.files);
     for (const file of req.files) {
       const result = await uploadToCloudinary(file.path, userId);
 
@@ -279,12 +279,11 @@ exports.uploadAttachments = async (req, res) => {
         // Check if the file is a video
         if (file.mimetype.startsWith("video/")) {
           videoUrl = result.secure_url;
-        } 
+        }
         // Check if the file is a thumbnail
         else if (file.fieldname === "thumbnail") {
           thumbnailUrl = result.secure_url;
-        } 
-        else {
+        } else {
           attachments.push({
             type: file.mimetype,
             size: file.size,
@@ -370,19 +369,45 @@ exports.uploadThumbnail = async (req, res) => {
       .json({ message: "Server Error. Unable to upload thumbnail." });
   }
 };
- exports.getCollaboratedProjects = async (req, res) => {
+exports.getCollaboratedProjects = async (req, res) => {
   try {
-      const userId = req.user._id; // Assuming you have middleware that adds user info to req
+    const userId = req.user._id; // Assuming you have middleware that adds user info to req
 
-      // Find all projects where the user is listed as a collaborator
-      const projects = await Project.find({
-          collaborators: userId,
-          owner: { $ne: userId } // Exclude projects where the user is the owner
-      });
+    // Find all projects where the user is listed as a collaborator
+    const projects = await Project.find({
+      collaborators: userId,
+      owner: { $ne: userId }, // Exclude projects where the user is the owner
+    });
 
-      res.status(200).json({ projects });
+    res.status(200).json({ projects });
   } catch (error) {
-      console.error('Error fetching collaborated projects:', error);
-      res.status(500).json({ message: 'Internal server error' });
+    console.error("Error fetching collaborated projects:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
+
+
+
+// Controller to fetch all projects with visibility set to "Public"
+exports.allProjects = async (req, res) => {
+  try {
+    const projects = await Project.find({
+      visible: "Public",
+    })
+      .populate("createdBy")
+
+    if (!projects.length) {
+      return res.status(404).json({ message: 'No public projects found.' });
+    }
+
+    console.log('Fetched projects:', projects);
+
+    return res.status(200).json({
+      projects,
+    });
+  } catch (err) {
+    console.error('Error fetching all projects:', err);
+    return res.status(500).json({ message: 'Internal server error.' });
+  }
+};
+

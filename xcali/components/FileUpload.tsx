@@ -34,7 +34,7 @@ const FileUpload: React.FC = () => {
         const projectData = {
           title: projectName,
           description: projectDescription,
-          visible: "Private",
+          visible: "Public",
           tags: tags.split(",").map((tag) => tag.trim()),
         };
 

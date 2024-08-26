@@ -48,7 +48,7 @@ const Dashboard: React.FC = () => {
     }, []);
     useEffect(() => {
         handleFetchProjects();
-    }, [handleFetchProjects]);
+    }, []);
     const handleCreateProject = () => {
         setShowProjectForm(true);
     };

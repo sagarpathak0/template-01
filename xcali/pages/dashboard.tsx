@@ -118,11 +118,11 @@ const Dashboard: React.FC = () => {
               Support
             </Link>
           </li>
-          <li className="mb-4">
+          {/* <li className="mb-4">
             <Link href="/meeting" className="text-lg hover:text-indigo-300">
               Meeting
             </Link>
-          </li>
+          </li> */}
         </ul>
       </div>
       {/* Main Content */}

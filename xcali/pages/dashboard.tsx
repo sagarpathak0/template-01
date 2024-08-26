@@ -8,7 +8,7 @@ import Link from "next/link";
 
 interface Project {
     _id?: string;
-    title?: string;
+    title?: string; 
     description?: string;
     visible?: string;
     tags?: string[];
@@ -53,7 +53,7 @@ const Dashboard: React.FC = () => {
 
     useEffect(() => {
         handleFetchProjects();
-    }, [handleFetchProjects]);
+    }, []);
 
     const handleCreateProject = () => {
         setShowProjectForm(true);

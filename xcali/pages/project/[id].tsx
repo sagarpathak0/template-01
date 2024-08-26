@@ -58,7 +58,7 @@ const ProjectDetails = () => {
     };
 
     fetchProject();
-  }, [id, getAllProjects]);
+  }, []);
 
   const handleUpdate = async () => {
     if (project) {

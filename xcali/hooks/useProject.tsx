@@ -2,6 +2,7 @@ import api from "@/api/api";
 import { useState } from "react";
 
 interface Project {
+  thumbnail: string;
   username: string;
   avatar: string;
   createdAt: string;
@@ -163,7 +164,20 @@ export const useProject = () => {
     }
   };
 
+  const allproject = async()=>{
+    try{
+      const res = await api.get(`/api/project/all`)
+      setProject(res.data.project)
+      localStorage.setItem("public",JSON.stringify(res.data.projects))
+      return res.data
+    }
+    catch(err){
+      console.error("Error", err);
+    }
+  }
+
   return {
+    allproject,
     createProject,
     project,
     projects,

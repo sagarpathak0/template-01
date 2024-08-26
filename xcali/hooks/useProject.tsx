@@ -1,5 +1,3 @@
-// hooks/useProject.ts
-
 import api from "@/api/api";
 import { useState } from "react";
 
@@ -19,6 +17,7 @@ interface Project {
 }
 
 interface ProjectResponse {
+  data: any;
   project: Project;
 }
 
@@ -30,7 +29,7 @@ export const useProject = () => {
   const [project, setProject] = useState<Project | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
 
-  const createProject = async (projectData: Project) => {
+  const createProject = async (projectData: Project): Promise<ProjectResponse> => {
     try {
       const res = await api.post<ProjectResponse>("/api/project/", projectData);
       setProject(res.data.project);
@@ -42,7 +41,7 @@ export const useProject = () => {
     }
   };
 
-  const deleteProject = async (projectId: string) => {
+  const deleteProject = async (projectId: string): Promise<void> => {
     try {
       await api.delete(`/api/project/delete/${projectId}`);
       setProject(null);
@@ -64,11 +63,9 @@ export const useProject = () => {
     }
   };
 
-  const getPublicProjectsByUserId = async (userId: string) => {
+  const getPublicProjectsByUserId = async (userId: string): Promise<void> => {
     try {
-      const res = await api.get<ProjectsResponse>(
-        `/api/project/public/${userId}`
-      );
+      const res = await api.get<ProjectsResponse>(`/api/project/public/${userId}`);
       setProjects(res.data.projects);
       localStorage.setItem("projects", JSON.stringify(res.data.projects));
     } catch (error) {
@@ -76,12 +73,9 @@ export const useProject = () => {
     }
   };
 
-  const updateProject = async (projectId: string, update: Partial<Project>) => {
+  const updateProject = async (projectId: string, update: Partial<Project>): Promise<void> => {
     try {
-      const res = await api.put<ProjectResponse>(
-        `/api/project/update/${projectId}`,
-        update
-      );
+      const res = await api.put<ProjectResponse>(`/api/project/update/${projectId}`, update);
       setProject(res.data.project);
       localStorage.setItem("project", JSON.stringify(res.data.project));
     } catch (error) {
@@ -89,17 +83,13 @@ export const useProject = () => {
     }
   };
 
-  const updateAttachments = async (projectId: string, formData: FormData) => {
+  const updateAttachments = async (projectId: string, formData: FormData): Promise<void> => {
     try {
-      const res = await api.put<ProjectResponse>(
-        `/api/project/${projectId}/attachments`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const res = await api.put<ProjectResponse>(`/api/project/${projectId}/attachments`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       setProject(res.data.project);
       localStorage.setItem("project", JSON.stringify(res.data.project));
     } catch (error) {
@@ -107,11 +97,9 @@ export const useProject = () => {
     }
   };
 
-  const removeAttachments = async (projectId: string, attachmentId: string) => {
+  const removeAttachments = async (projectId: string, attachmentId: string): Promise<void> => {
     try {
-      const res = await api.delete<ProjectResponse>(
-        `/api/project/${projectId}/attachments/${attachmentId}`
-      );
+      const res = await api.delete<ProjectResponse>(`/api/project/${projectId}/attachments/${attachmentId}`);
       setProject(res.data.project);
       localStorage.setItem("project", JSON.stringify(res.data.project));
     } catch (error) {
@@ -119,39 +107,32 @@ export const useProject = () => {
     }
   };
 
-  const uploadAttachments = async (projectId: string, formData: FormData) => {
+  const uploadAttachments = async (projectId: string, formData: FormData): Promise<ProjectResponse> => {
     try {
-      const res = await api.post<ProjectResponse>(
-        `/api/project/${projectId}/attachments`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const res = await api.post<ProjectResponse>(`/api/project/${projectId}/attachments`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       setProject(res.data.project);
       localStorage.setItem("project", JSON.stringify(res.data.project));
+      return res.data;
     } catch (error) {
       console.error("Upload Attachments Error", error);
       throw error;
     }
   };
 
-  const uploadThumbnail = async (projectId: string, thumbnail: File) => {
+  const uploadThumbnail = async (projectId: string, thumbnail: File): Promise<ProjectResponse> => {
     try {
       const formData = new FormData();
       formData.append("thumbnail", thumbnail);
 
-      const res = await api.post<ProjectResponse>(
-        `/api/project/${projectId}/upload-thumbnail`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const res = await api.post<ProjectResponse>(`/api/project/${projectId}/upload-thumbnail`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       return res.data;
     } catch (error) {
@@ -160,17 +141,19 @@ export const useProject = () => {
     }
   };
 
-  const getProjectByCollab = async () => {
+  const getProjectByCollab = async (): Promise<ProjectResponse> => {
     try {
       const res = await api.get<ProjectResponse>(`/api/project/collaborated/`);
       setProject(res.data.project);
       localStorage.setItem("projectCollab", JSON.stringify(res.data.project));
+      return res.data;
     } catch (err) {
       console.error("Error", err);
+      throw err;
     }
   };
 
-  const allproject = async () => {
+  const allproject = async (): Promise<ProjectsResponse> => {
     try {
       const res = await api.get<ProjectsResponse>(`/api/project/all`);
       setProjects(res.data.projects);
@@ -178,6 +161,7 @@ export const useProject = () => {
       return res.data;
     } catch (err) {
       console.error("Error", err);
+      throw err;
     }
   };
 

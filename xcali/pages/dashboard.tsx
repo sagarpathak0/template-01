@@ -43,7 +43,7 @@ const Dashboard: React.FC = () => {
             } else if (activeTab === "collaborated") {
                 const response = await getProjectByCollab();
                 if (response && response.project) {
-                    setProjects(response.project);
+                    setProjects(response.data.project);
                 }
             }
         } catch (error) {
@@ -232,16 +232,17 @@ const Dashboard: React.FC = () => {
             </main>
             {/* File Upload and Modals */}
             {showProjectForm && (
-                <Modal onClose={() => setShowProjectForm(false)}>
-                    <FileUpload
-                        project={selectedProject}
-                        onSubmit={(data) => {
-                            // Handle form submission
-                            setShowProjectForm(false);
-                            handleFetchProjects();
-                        }}
-                    />
-                </Modal>
+                <Modal onClose={() => setShowProjectForm(false)} isOpen={showProjectForm}>
+                <FileUpload
+                    project={selectedProject}
+                    onSubmit={() => {
+                        // Handle form submission
+                        setShowProjectForm(false);
+                        handleFetchProjects();
+                    }}
+                />
+            </Modal>
+            
             )}
         </div>
     );

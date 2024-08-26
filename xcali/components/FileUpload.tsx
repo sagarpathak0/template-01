@@ -2,7 +2,27 @@ import React, { useState } from "react";
 import Modal from "./Modal";
 import { useProject } from "@/hooks/useProject";
 
-const FileUpload: React.FC = () => {
+
+interface Attachment {
+  _id: string;
+  url: string;
+}
+interface Project {
+  _id?: string;
+  title?: string;
+  description?: string;
+  visible?: string;
+  tags?: string[];
+  thumbnail?: string;
+  attachments?: Attachment[];
+}
+
+interface FileUploadProps {
+  project: Project | null;
+  onSubmit: (data: any) => void; // Adjust the type of `data` based on your requirements
+}
+
+const FileUpload: React.FC<FileUploadProps> = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [projectName, setProjectName] = useState<string>("");

@@ -5,13 +5,11 @@ import {
   faGithub,
   faDiscord,
 } from "@fortawesome/free-brands-svg-icons";
-import Link from "next/link";
 import {
   faHome,
   faProjectDiagram,
   faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import FeedPage from "../components/FeedPage";
 import { useAuth } from "@/hooks/useAuth";
 
 const Home: React.FC = () => {
@@ -20,48 +18,6 @@ const Home: React.FC = () => {
 
   return (
     <main className="flex flex-col bg-gradient-to-r from-blue-900 via-purple-900 to-blue-900 text-white">
-      {user ? (
-        <div className="flex h-screen">
-          {/* Sidebar */}
-          <motion.div
-            className={`bg-gray-800 h-full ${
-              expanded ? "w-64" : "w-20"
-            } transition-all duration-300`}
-            onMouseEnter={() => setExpanded(true)}
-            onMouseLeave={() => setExpanded(false)}
-          >
-            <div className="flex flex-col items-center mt-10 space-y-8">
-              <motion.div
-                whileHover={{ scale: 1.2 }}
-                className="cursor-pointer"
-              ><Link href="/home"><FontAwesomeIcon icon={faHome} size="2x" />
-                {expanded && <span className="ml-4">Home</span>}</Link>
-                
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.2 }}
-                className="cursor-pointer"
-              ><Link href='/dashboard'><FontAwesomeIcon icon={faProjectDiagram} size="2x" />
-                {expanded && <span className="ml-4">Projects</span>}</Link>
-                
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.2 }}
-                className="cursor-pointer"
-              ><button onClick={logout}><FontAwesomeIcon icon={faSignOutAlt} size="2x" />
-                {expanded && <span className="ml-4">Logout</span>}</button>
-                
-              </motion.div>
-            </div>
-          </motion.div>
-
-          {/* Main Content */}
-          <div className="flex-1 p-10">
-            <FeedPage />
-          </div>
-        </div>
-      ) : (
-        <>
           {/* Hero Section */}
           <section className="flex flex-col items-center justify-center min-h-screen text-center">
             <motion.h1
@@ -251,8 +207,6 @@ const Home: React.FC = () => {
               Sign Up Now
             </motion.a>
           </section>
-        </>
-      )}
     </main>
   );
 };

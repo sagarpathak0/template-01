@@ -41,7 +41,7 @@ const Home: React.FC = () => {
               transition={{ duration: 0.8, delay: 1 }}
             >
               <a
-                href="https://github.com/your-repo"
+                href="https://github.com/sagarpathak0/template-01"
                 className="bg-gray-800 text-white px-6 py-3 rounded-full text-lg font-semibold shadow-lg transition-transform transform hover:scale-110"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -50,7 +50,7 @@ const Home: React.FC = () => {
                 View on GitHub
               </a>
               <a
-                href="https://discord.gg/your-invite"
+                href="https://discord.gg/3CJGCbXj"
                 className="bg-blue-600 text-white px-6 py-3 rounded-full text-lg font-semibold shadow-lg transition-transform transform hover:scale-110"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -149,7 +149,7 @@ const Home: React.FC = () => {
               transition={{ duration: 0.8 }}
             >
               <a
-                href="https://github.com/your-repo"
+                href="https://github.com/sagarpathak0/template-01"
                 className="bg-gray-800 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg transition-transform transform hover:scale-110"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -166,10 +166,10 @@ const Home: React.FC = () => {
               &copy; {new Date().getFullYear()} Your App. All rights reserved.
             </p>
             <div className="flex justify-center gap-6 mt-6">
-              <a href="https://github.com/your-repo" target="_blank" rel="noopener noreferrer">
+              <a href="https://github.com/sagarpathak0/template-01" target="_blank" rel="noopener noreferrer">
                 <FontAwesomeIcon icon={faGithub} className="text-gray-400 hover:text-white transition-colors" size="2x" />
               </a>
-              <a href="https://discord.gg/your-invite" target="_blank" rel="noopener noreferrer">
+              <a href="https://discord.gg/3CJGCbXj" target="_blank" rel="noopener noreferrer">
                 <FontAwesomeIcon icon={faDiscord} className="text-gray-400 hover:text-white transition-colors" size="2x" />
               </a>
             </div>

@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import '../styles/globals.css';
 import Navbar from '../components/Navbar';
+import { ThemeProvider } from "next-themes";
 
 function MyApp({ Component, pageProps }: AppProps) {
     const router = useRouter();
@@ -16,10 +17,12 @@ function MyApp({ Component, pageProps }: AppProps) {
 
     return (
         <>
-            <Navbar /> 
-            <main className="pt-20"> 
-                <Component {...pageProps} />
-            </main>
+            <ThemeProvider defaultTheme='dark'>
+                <Navbar /> 
+                <main className="pt-20"> 
+                    <Component {...pageProps} />
+                </main>
+            </ThemeProvider>
         </>
     );
 }

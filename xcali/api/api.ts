@@ -1,13 +1,14 @@
 import axios from "axios";
 
 const getToken = () => {
-  const data =  localStorage.getItem("auth");
-  console.log("Data in api.ts",data)
+  const data = localStorage.getItem("auth");
+  console.log("Data in api.ts", data);
   return data ? JSON.parse(data).token : null;
 };
 
 const api = axios.create({
-  baseURL: "http://localhost:8080/",
+  // baseURL: "http://localhost:8080/",
+  baseURL: "https://template-01-sepia.vercel.app/",
 });
 
 api.interceptors.request.use(

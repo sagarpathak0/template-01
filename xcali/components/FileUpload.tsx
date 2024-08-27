@@ -2,7 +2,27 @@ import React, { useState } from "react";
 import Modal from "./Modal";
 import { useProject } from "@/hooks/useProject";
 
-const FileUpload: React.FC = () => {
+
+interface Attachment {
+  _id: string;
+  url: string;
+}
+interface Project {
+  _id?: string;
+  title?: string;
+  description?: string;
+  visible?: string;
+  tags?: string[];
+  thumbnail?: string;
+  attachments?: Attachment[];
+}
+
+interface FileUploadProps {
+  project: Project | null;
+  onSubmit: (data: any) => void; 
+}
+
+const FileUpload: React.FC<FileUploadProps> = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [projectName, setProjectName] = useState<string>("");
@@ -34,7 +54,7 @@ const FileUpload: React.FC = () => {
         const projectData = {
           title: projectName,
           description: projectDescription,
-          visible: "Private",
+          visible: "Public",
           tags: tags.split(",").map((tag) => tag.trim()),
         };
 
@@ -105,6 +125,7 @@ const FileUpload: React.FC = () => {
                 Project Name
               </label>
               <input
+                placeholder="project-name"
                 type="text"
                 value={projectName}
                 onChange={(e) => setProjectName(e.target.value)}
@@ -118,6 +139,7 @@ const FileUpload: React.FC = () => {
                 Project Description
               </label>
               <textarea
+                placeholder="description"
                 value={projectDescription}
                 onChange={(e) => setProjectDescription(e.target.value)}
                 className="block w-full mt-1 px-3 py-2 text-black border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -145,6 +167,7 @@ const FileUpload: React.FC = () => {
                 Upload Files/Folders
               </label>
               <input
+                placeholder="upload"
                 type="file"
                 onChange={handleFileChange}
                 className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-600 hover:file:bg-indigo-100"
@@ -168,6 +191,7 @@ const FileUpload: React.FC = () => {
                 Upload Thumbnail/Video
               </label>
               <input
+                placeholder="thumbnail"
                 type="file"
                 onChange={handleThumbnailChange}
                 className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-600 hover:file:bg-indigo-100"
